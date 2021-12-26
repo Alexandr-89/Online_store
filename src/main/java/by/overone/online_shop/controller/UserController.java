@@ -1,6 +1,7 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dto.UserDTO;
+import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class UserController {
     public List<UserDTO> readAll(){
         return userService.getAllUsers();
     }
+
+//    public UserRegistretionDTO addUser(@);
 
     @GetMapping("/hello")
     public String read(){
