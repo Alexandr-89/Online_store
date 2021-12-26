@@ -15,4 +15,6 @@ public class User {
     private String email;
     private Role role;
     private Status status;
+//    private Role role;
+//    private Status status;
 }

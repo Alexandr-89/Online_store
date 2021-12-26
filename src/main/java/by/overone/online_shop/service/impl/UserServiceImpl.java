@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserDAO userDAO;
 
+
     @Override
     public List<UserDTO> getAllUsers() {
         List<UserDTO> userDTOs = userDAO.getAllUsers()
