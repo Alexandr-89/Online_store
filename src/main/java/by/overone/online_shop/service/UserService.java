@@ -9,5 +9,9 @@ import java.util.List;
 public interface UserService {
 
     List<UserDTO> getAllUsers();
+    List<UserDTO> getAllActiveUsers(String status);
     void addUser(UserRegistretionDTO userRegistretionDTO) throws ValidatorException;
+    UserDTO getUserById(long id);
+    UserDTO getUserByLogin(String login);
+    UserDTO getUserByEmail(String email);
 }
