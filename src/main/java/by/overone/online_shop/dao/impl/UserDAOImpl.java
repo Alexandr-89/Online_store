@@ -21,6 +21,12 @@ public class UserDAOImpl implements UserDAO {
     private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
     private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
     private final static String ADD_USER_QUERY = "INSERT INTO users VALUES(0,?,?,?,?,?)";
+    private final static String ADD_USER_DETAILS_ID_QUERY = "INSERT INTO users_details(users_id) VALUE(?)";
+    private final static String ADD_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
+            "surname=?, address=?, phone=? WHERE users_id=?";
+    private final static String DELETE_USER_QUERY = "UPDATE users SET status='INACTIVE' WHERE id=?";
+    private final static String GET_USER_ALL_DATA_QUERY = "SELECT*FROM users JOIN users_details ON " +
+            "id=users_id WHERE id=?";
 
 
     private final JdbcTemplate jdbcTemplate;
@@ -68,5 +74,11 @@ public class UserDAOImpl implements UserDAO {
                 user.getEmail(),
                 user.getRole(),
                 user.getStatus());
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        jdbcTemplate.update(DELETE_USER_QUERY, id);
+
     }
 }

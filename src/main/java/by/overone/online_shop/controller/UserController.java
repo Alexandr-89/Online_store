@@ -49,6 +49,11 @@ public class UserController {
         userService.addUser(userRegistretionDTO);
     }
 
+    @GetMapping("/delete")
+    public void daleteUser(@RequestParam long id){
+        userService.deleteUser(id);
+    }
+
 
     @GetMapping("/hello")
     public String read() {
