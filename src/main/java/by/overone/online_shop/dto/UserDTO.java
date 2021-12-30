@@ -14,6 +14,6 @@ public class UserDTO {
     private long id;
     private String login;
     private String email;
-    private Role role;
-    private Status status;
+    private String role;
+    private String status;
 }

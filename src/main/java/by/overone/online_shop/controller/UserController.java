@@ -2,8 +2,10 @@ package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.UserDTO;
+import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
+import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,11 @@ public class UserController {
     @GetMapping("/byEmail")
     public UserDTO getUserByEmail(@RequestParam String email){
         return userService.getUserByEmail(email);
+    }
+
+    @PostMapping("/add")
+    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO) throws ValidatorException {
+        userService.addUser(userRegistretionDTO);
     }
 
 

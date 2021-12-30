@@ -1,9 +1,9 @@
 package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.ProductDAO;
-import by.overone.online_shop.dao.mapper.ProductRowMapper;
 import by.overone.online_shop.model.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +19,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getAllProduct() {
-        List<Product> products = jdbcTemplate.query(GET_ALL_PRODUCTS_QUERY, new ProductRowMapper());
+        List<Product> products = jdbcTemplate.query(GET_ALL_PRODUCTS_QUERY, new BeanPropertyRowMapper<>(Product.class));
         return products;
     }
 }

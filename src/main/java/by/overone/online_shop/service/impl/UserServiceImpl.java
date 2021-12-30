@@ -10,6 +10,7 @@ import by.overone.online_shop.validator.UserValidator;
 import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,8 +40,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(UserRegistretionDTO userRegistretionDTO) throws ValidatorException {
-        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
-        userDAO.addUser(userRegistretionDTO);
+//        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
+        User user = new User();
+        user.setLogin(userRegistretionDTO.getLogin());
+        user.setPassword(userRegistretionDTO.getPassword());
+        user.setEmail(userRegistretionDTO.getEmail());
+        user.setRole("CUSTOMER");
+        user.setStatus("ACTIVE");
+        userDAO.addUser(user);
     }
 
     @Override

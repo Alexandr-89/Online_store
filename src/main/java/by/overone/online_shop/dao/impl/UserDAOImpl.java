@@ -1,7 +1,6 @@
 package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.UserDAO;
-import by.overone.online_shop.dao.mapper.UserRowMapper;
 import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.model.Role;
 import by.overone.online_shop.model.Status;
@@ -29,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> users = jdbcTemplate.query(GET_ALL_USERS_QUERY, new UserRowMapper());
+        List<User> users = jdbcTemplate.query(GET_ALL_USERS_QUERY, new BeanPropertyRowMapper<>(User.class));
         return users;
     }
 
@@ -37,37 +36,37 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAllUserByStatus(String status) {
         return jdbcTemplate.query(GET_ALL_USER_BY_STATUS_QUERY,
                 new Object[]{status},
-                new UserRowMapper());
+                new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
     public User getUserById(long id) {
         return jdbcTemplate.query(GET_USER_BY_ID_QUERY,
                 new Object[]{id},
-                new UserRowMapper()).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
     }
 
     @Override
     public User getUserByLogin(String login) {
         return jdbcTemplate.query(GET_USER_BY_LOGIN_QUERY,
                 new Object[]{login},
-                new UserRowMapper()).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
     }
 
     @Override
     public User getUserByEmail(String email) {
         return jdbcTemplate.query(GET_USER_BY_EMAIL_QUERY,
                 new Object[]{email},
-                new UserRowMapper()).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
     }
 
     @Override
-    public void addUser(UserRegistretionDTO userRegistretionDTO) {
+    public void addUser(User user) {
         jdbcTemplate.update(ADD_USER_QUERY,
-                userRegistretionDTO.getLogin(),
-                userRegistretionDTO.getPassword(),
-                userRegistretionDTO.getEmail(),
-                Role.CUSTOMER.toString(),
-                Status.ACTIVE.toString());
+                user.getLogin(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getRole(),
+                user.getStatus());
     }
 }
