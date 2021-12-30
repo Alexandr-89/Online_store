@@ -3,6 +3,7 @@ package by.overone.online_shop.service.impl;
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.UserDTO;
 import by.overone.online_shop.dto.UserRegistretionDTO;
+import by.overone.online_shop.dto.UserUpdateDTO;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
@@ -90,6 +91,12 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(long id) {
         getUserById(id);
         userDAO.deleteUser(id);
+    }
+
+    @Override
+    public void userUpdate(UserUpdateDTO userUpdateDTO) {
+        getUserById(userUpdateDTO.getId());
+        userDAO.updateUser(userUpdateDTO);
     }
 
 

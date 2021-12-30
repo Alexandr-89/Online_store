@@ -1,6 +1,7 @@
 package by.overone.online_shop.dao;
 
 import by.overone.online_shop.dto.UserRegistretionDTO;
+import by.overone.online_shop.dto.UserUpdateDTO;
 import by.overone.online_shop.model.User;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface UserDAO {
     User getUserByEmail(String email);
     void addUser(User user);
     void deleteUser(long id);
+    void updateUser(UserUpdateDTO userUpdateDTO);
 
 }

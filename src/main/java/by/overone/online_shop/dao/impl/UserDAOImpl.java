@@ -2,6 +2,7 @@ package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.UserRegistretionDTO;
+import by.overone.online_shop.dto.UserUpdateDTO;
 import by.overone.online_shop.model.Role;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
@@ -27,6 +28,9 @@ public class UserDAOImpl implements UserDAO {
     private final static String DELETE_USER_QUERY = "UPDATE users SET status='INACTIVE' WHERE id=?";
     private final static String GET_USER_ALL_DATA_QUERY = "SELECT*FROM users JOIN users_details ON " +
             "id=users_id WHERE id=?";
+    private final static String UPDATE_USER_QUERY = "UPDATE users SET login=COALESCE(?, login)," +
+            " password=COALESCE(?, password), email=COALESCE(?, email, last_update_date=DEFAULT WHERE id=?)";
+    private final static String UPDATE = "UPDATE users SET login=?, password=?, email=? WHERE id=?";
 
 
     private final JdbcTemplate jdbcTemplate;
@@ -80,5 +84,11 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUser(long id) {
         jdbcTemplate.update(DELETE_USER_QUERY, id);
 
+    }
+
+    @Override
+    public void updateUser(UserUpdateDTO userUpdateDTO) {
+        jdbcTemplate.update(UPDATE, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
+                userUpdateDTO.getEmail(), userUpdateDTO.getId());
     }
 }
