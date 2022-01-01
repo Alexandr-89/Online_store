@@ -9,6 +9,11 @@ import by.overone.online_shop.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +26,8 @@ public class UserDAOImpl implements UserDAO {
     private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
     private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
     private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
+    private final static String ADDDD = "INSERT INTO users (login, password, email, role, status) VALUES(:login," +
+            " :password, :email, :role, :status)";
     private final static String ADD_USER_QUERY = "INSERT INTO users VALUES(0,?,?,?,?,?)";
     private final static String ADD_USER_DETAILS_ID_QUERY = "INSERT INTO users_details(users_id) VALUE(?)";
     private final static String ADD_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
@@ -34,6 +41,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
     @Override
@@ -72,12 +80,25 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        jdbcTemplate.update(ADD_USER_QUERY,
-                user.getLogin(),
-                user.getPassword(),
-                user.getEmail(),
-                user.getRole(),
-                user.getStatus());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+                .addValue("login", user.getLogin())
+                .addValue("password", user.getPassword())
+                .addValue("email", user.getEmail())
+                .addValue("role", user.getRole())
+                .addValue("status", user.getStatus());
+        namedParameterJdbcTemplate.update(ADDDD, sqlParameterSource, keyHolder, new String[]{"id"});
+        user.setId(keyHolder.getKey().longValue());
+        jdbcTemplate.update(ADD_USER_DETAILS_ID_QUERY, user.getId());
+
+
+
+//        jdbcTemplate.update(ADD_USER_QUERY,
+//                user.getLogin(),
+//                user.getPassword(),
+//                user.getEmail(),
+//                user.getRole(),
+//                user.getStatus());
     }
 
     @Override

@@ -32,6 +32,10 @@ public class WebConfig implements WebMvcConfigurer {
     public JdbcTemplate jdbcTemplate(DataSource dataSource){
         return new JdbcTemplate(dataSource);
     }
+    @Bean
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource){
+        return new NamedParameterJdbcTemplate(dataSource);
+    }
 
     @Bean
     public TransactionManager transactionManager(DataSource dataSource){

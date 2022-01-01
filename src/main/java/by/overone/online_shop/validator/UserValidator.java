@@ -13,7 +13,7 @@ public class UserValidator {
     private final static String NAME_REGEX = "^[a-zA-Z]{2,30}$";
     private final static String ADDRESS_REGEX = "^[\\w]{5,50}$";
 
-    public static boolean validatorUserRegistrationDTO(UserRegistretionDTO user) throws ValidatorException {
+    public static boolean validatorUserRegistrationDTO(UserRegistretionDTO user) {
         if (validateLogin(user.getLogin()) && validatePassword(user.getPassword()) && validateEmail(user.getEmail())){
             return validateLogin(user.getLogin()) && validatePassword(user.getPassword()) && validateEmail(user.getEmail());
         }else {

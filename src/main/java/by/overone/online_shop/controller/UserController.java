@@ -8,6 +8,7 @@ import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
 import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO) throws ValidatorException {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO){
         userService.addUser(userRegistretionDTO);
     }
 

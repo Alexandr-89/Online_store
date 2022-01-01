@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserRegistretionDTO userRegistretionDTO) throws ValidatorException {
-//        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
+    public void addUser(UserRegistretionDTO userRegistretionDTO) {
+        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
         User user = new User();
         user.setLogin(userRegistretionDTO.getLogin());
         user.setPassword(userRegistretionDTO.getPassword());
