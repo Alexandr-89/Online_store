@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/byStatus")
-    public List<UserDTO> getAllActiveUser(@RequestParam String status){
+    public List<UserDTO> getAllUserByStatus(@RequestParam String status){
         return userService.getAllActiveUsers(status);
     }
 
