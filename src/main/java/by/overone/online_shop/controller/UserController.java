@@ -1,6 +1,7 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dao.UserDAO;
+import by.overone.online_shop.dto.UserAllDetailsDTO;
 import by.overone.online_shop.dto.UserDTO;
 import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.dto.UserUpdateDTO;
@@ -34,6 +35,11 @@ public class UserController {
     @GetMapping("/byId")
     public UserDTO getUserById(@RequestParam long id){
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/allDetailsById")
+    public UserAllDetailsDTO getUserAllDetailsById(@RequestParam long id){
+        return userService.getUserAllDetailsById(id);
     }
 
     @GetMapping("/byLogin")

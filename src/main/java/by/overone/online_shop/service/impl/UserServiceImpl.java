@@ -1,6 +1,7 @@
 package by.overone.online_shop.service.impl;
 
 import by.overone.online_shop.dao.UserDAO;
+import by.overone.online_shop.dto.UserAllDetailsDTO;
 import by.overone.online_shop.dto.UserDTO;
 import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.dto.UserUpdateDTO;
@@ -64,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserAllDetailsDTO getUserAllDetailsById(long id) {
+        return userDAO.getUserAllDetailsById(id);
+    }
+
+    @Override
     public UserDTO getUserByLogin(String login) {
         UserDTO userDTOs = new UserDTO();
         User user =userDAO.getUserByLogin(login);
@@ -95,7 +101,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userUpdate(UserUpdateDTO userUpdateDTO) {
-        getUserById(userUpdateDTO.getId());
+        UserAllDetailsDTO userAllDetailsDTO = userDAO.getUserAllDetailsById(userUpdateDTO.getId());
+        if (userUpdateDTO.getLogin()!=null){
+            userUpdateDTO.setLogin(userUpdateDTO.getLogin());
+        }else {
+            userUpdateDTO.setLogin(userAllDetailsDTO.getLogin());
+        }
+        if (userUpdateDTO.getPassword()!=null){
+            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
+        }else {
+            userUpdateDTO.setPassword(userAllDetailsDTO.getPassword());
+        }
+        if (userUpdateDTO.getEmail()!=null){
+            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
+        }else {
+            userUpdateDTO.setEmail(userAllDetailsDTO.getEmail());
+        }
+        if (userUpdateDTO.getName()!=null){
+            userUpdateDTO.setName(userUpdateDTO.getName());
+        }else {
+            userUpdateDTO.setName(userAllDetailsDTO.getName());
+        }
+        if (userUpdateDTO.getSurname()!=null){
+            userUpdateDTO.setSurname(userUpdateDTO.getSurname());
+        }else {
+            userUpdateDTO.setSurname(userAllDetailsDTO.getSurname());
+        }
+        if (userUpdateDTO.getAddress()!=null){
+            userUpdateDTO.setAddress(userUpdateDTO.getAddress());
+        }else {
+            userUpdateDTO.setAddress(userAllDetailsDTO.getAddress());
+        }
+        if (userUpdateDTO.getPhone()!=null){
+            userUpdateDTO.setPhone(userUpdateDTO.getPhone());
+        }else {
+            userUpdateDTO.setPhone(userAllDetailsDTO.getPhone());
+        }
         userDAO.updateUser(userUpdateDTO);
     }
 

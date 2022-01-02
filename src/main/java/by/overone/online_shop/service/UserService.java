@@ -1,5 +1,6 @@
 package by.overone.online_shop.service;
 
+import by.overone.online_shop.dto.UserAllDetailsDTO;
 import by.overone.online_shop.dto.UserDTO;
 import by.overone.online_shop.dto.UserRegistretionDTO;
 import by.overone.online_shop.dto.UserUpdateDTO;
@@ -13,6 +14,7 @@ public interface UserService {
     List<UserDTO> getAllActiveUsers(String status);
     void addUser(UserRegistretionDTO userRegistretionDTO) throws ValidatorException;
     UserDTO getUserById(long id);
+    UserAllDetailsDTO getUserAllDetailsById(long id);
     UserDTO getUserByLogin(String login);
     UserDTO getUserByEmail(String email);
     void deleteUser(long id);
