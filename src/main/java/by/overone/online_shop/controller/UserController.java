@@ -1,10 +1,7 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dao.UserDAO;
-import by.overone.online_shop.dto.UserAllDetailsDTO;
-import by.overone.online_shop.dto.UserDTO;
-import by.overone.online_shop.dto.UserRegistretionDTO;
-import by.overone.online_shop.dto.UserUpdateDTO;
+import by.overone.online_shop.dto.*;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
 import by.overone.online_shop.validator.exception.ValidatorException;
@@ -37,6 +34,11 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping("/detailById")
+    public UserDetailDTO getUserDetailById(@RequestParam long users_id){
+        return userService.getUserDetailById(users_id);
+    }
+
     @GetMapping("/allDetailsById")
     public UserAllDetailsDTO getUserAllDetailsById(@RequestParam long id){
         return userService.getUserAllDetailsById(id);
@@ -66,6 +68,11 @@ public class UserController {
     @PostMapping("/update")
     public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO){
         userService.userUpdate(userUpdateDTO);
+    }
+
+    @PostMapping("/updateDetails")
+    public void  updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO){
+        userService.userDetailUpdate(userDetailUpdateDTO);
     }
 
 

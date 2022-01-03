@@ -1,12 +1,10 @@
 package by.overone.online_shop.service.impl;
 
 import by.overone.online_shop.dao.UserDAO;
-import by.overone.online_shop.dto.UserAllDetailsDTO;
-import by.overone.online_shop.dto.UserDTO;
-import by.overone.online_shop.dto.UserRegistretionDTO;
-import by.overone.online_shop.dto.UserUpdateDTO;
+import by.overone.online_shop.dto.*;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
+import by.overone.online_shop.model.UserDetail;
 import by.overone.online_shop.service.UserService;
 import by.overone.online_shop.validator.UserValidator;
 import by.overone.online_shop.validator.exception.ValidatorException;
@@ -65,6 +63,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDetailDTO getUserDetailById(long users_id) {
+        UserDetailDTO userDetailDTO = new UserDetailDTO();
+        UserDetail userDetail = userDAO.getUserDetailByUserId(users_id);
+        userDetailDTO.setName(userDetail.getName());
+        userDetailDTO.setSurname(userDetail.getSurname());
+        userDetailDTO.setAddress(userDetail.getAddress());
+        userDetailDTO.setPhone(userDetail.getPhone());
+        return userDetailDTO;
+    }
+
+    @Override
     public UserAllDetailsDTO getUserAllDetailsById(long id) {
         return userDAO.getUserAllDetailsById(id);
     }
@@ -101,43 +110,71 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userUpdate(UserUpdateDTO userUpdateDTO) {
-        UserAllDetailsDTO userAllDetailsDTO = userDAO.getUserAllDetailsById(userUpdateDTO.getId());
+        User user = userDAO.getUserById(userUpdateDTO.getId());
         if (userUpdateDTO.getLogin()!=null){
             userUpdateDTO.setLogin(userUpdateDTO.getLogin());
         }else {
-            userUpdateDTO.setLogin(userAllDetailsDTO.getLogin());
+            userUpdateDTO.setLogin(user.getLogin());
         }
         if (userUpdateDTO.getPassword()!=null){
             userUpdateDTO.setPassword(userUpdateDTO.getPassword());
         }else {
-            userUpdateDTO.setPassword(userAllDetailsDTO.getPassword());
+            userUpdateDTO.setPassword(user.getPassword());
         }
         if (userUpdateDTO.getEmail()!=null){
             userUpdateDTO.setEmail(userUpdateDTO.getEmail());
         }else {
-            userUpdateDTO.setEmail(userAllDetailsDTO.getEmail());
+            userUpdateDTO.setEmail(user.getEmail());
         }
-        if (userUpdateDTO.getName()!=null){
-            userUpdateDTO.setName(userUpdateDTO.getName());
-        }else {
-            userUpdateDTO.setName(userAllDetailsDTO.getName());
-        }
-        if (userUpdateDTO.getSurname()!=null){
-            userUpdateDTO.setSurname(userUpdateDTO.getSurname());
-        }else {
-            userUpdateDTO.setSurname(userAllDetailsDTO.getSurname());
-        }
-        if (userUpdateDTO.getAddress()!=null){
-            userUpdateDTO.setAddress(userUpdateDTO.getAddress());
-        }else {
-            userUpdateDTO.setAddress(userAllDetailsDTO.getAddress());
-        }
-        if (userUpdateDTO.getPhone()!=null){
-            userUpdateDTO.setPhone(userUpdateDTO.getPhone());
-        }else {
-            userUpdateDTO.setPhone(userAllDetailsDTO.getPhone());
-        }
+        userUpdateDTO.setRole(user.getRole());
+        userUpdateDTO.setStatus(user.getStatus());
+//        if (userUpdateDTO.getName()!=null){
+//            userUpdateDTO.setName(userUpdateDTO.getName());
+//        }else {
+//            userUpdateDTO.setName(userAllDetailsDTO.getName());
+//        }
+//        if (userUpdateDTO.getSurname()!=null){
+//            userUpdateDTO.setSurname(userUpdateDTO.getSurname());
+//        }else {
+//            userUpdateDTO.setSurname(userAllDetailsDTO.getSurname());
+//        }
+//        if (userUpdateDTO.getAddress()!=null){
+//            userUpdateDTO.setAddress(userUpdateDTO.getAddress());
+//        }else {
+//            userUpdateDTO.setAddress(userAllDetailsDTO.getAddress());
+//        }
+//        if (userUpdateDTO.getPhone()!=null){
+//            userUpdateDTO.setPhone(userUpdateDTO.getPhone());
+//        }else {
+//            userUpdateDTO.setPhone(userAllDetailsDTO.getPhone());
+//        }
         userDAO.updateUser(userUpdateDTO);
+    }
+
+    @Override
+    public void userDetailUpdate(UserDetailUpdateDTO userDetailUpdateDTO) {
+        UserDetail userDetail = userDAO.getUserDetailByUserId(userDetailUpdateDTO.getUsers_id());
+        if (userDetailUpdateDTO.getName()!=null){
+            userDetailUpdateDTO.setName(userDetailUpdateDTO.getName());
+        }else {
+            userDetailUpdateDTO.setName(userDetail.getName());
+        }
+        if (userDetailUpdateDTO.getSurname()!=null){
+            userDetailUpdateDTO.setSurname(userDetailUpdateDTO.getSurname());
+        }else {
+            userDetailUpdateDTO.setSurname(userDetail.getSurname());
+        }
+        if (userDetailUpdateDTO.getAddress()!=null){
+            userDetailUpdateDTO.setAddress(userDetailUpdateDTO.getAddress());
+        }else {
+            userDetailUpdateDTO.setAddress(userDetail.getAddress());
+        }
+        if (userDetailUpdateDTO.getPhone()!=null){
+            userDetailUpdateDTO.setPhone(userDetailUpdateDTO.getPhone());
+        }else {
+            userDetailUpdateDTO.setPhone(userDetail.getPhone());
+        }
+        userDAO.updateUserDetails(userDetailUpdateDTO);
     }
 
 
