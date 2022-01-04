@@ -40,30 +40,39 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addProduct(ProductDTO productDTO) {
-        List<Product> products = productDAO.getAllProduct();
-        Product product = new Product();
+    public Product getProduct(String name, String description, double price) {
+         return productDAO.getProduct(name, description, price);
+    }
 
-        if (products.size()>0) {
-            for (Product product1 : products) {
-                if (productDTO.getName().equals(product1.getName()) && productDTO.getPrice()==product1.getPrice()){
-                    ProductUpdateForAddDTO productUpdateForAddDTO = new ProductUpdateForAddDTO();
-                    productUpdateForAddDTO.setId(product1.getId());
-                    productUpdateForAddDTO.setCount(productDTO.getCount()+product1.getCount());
-                    productUpdateForAddDTO.setStatus("ACTIVE");
-                    productDAO.updateProductCount(productUpdateForAddDTO);
-                }else {
-                    continue;
-                }
-            }
-            }else {
-            product.setName(productDTO.getName());
-            product.setDescription(productDTO.getDescription());
-            product.setPrice(productDTO.getPrice());
-            product.setCount(productDTO.getCount());
-            product.setStatus("ACTIVE");
-            productDAO.addProduct(product);
-        }
+    @Override
+    public void addProduct(ProductDTO productDTO) {
+
+         Product product = productDAO.getProduct(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
+
+
+//        List<Product> products = productDAO.getAllProduct();
+//        Product product = new Product();
+//
+//        if (products.size()>0) {
+//            for (Product product1 : products) {
+//                if (productDTO.getName().equals(product1.getName()) && productDTO.getPrice()==product1.getPrice()){
+//                    ProductUpdateForAddDTO productUpdateForAddDTO = new ProductUpdateForAddDTO();
+//                    productUpdateForAddDTO.setId(product1.getId());
+//                    productUpdateForAddDTO.setCount(productDTO.getCount()+product1.getCount());
+//                    productUpdateForAddDTO.setStatus("ACTIVE");
+//                    productDAO.updateProductCount(productUpdateForAddDTO);
+//                }else {
+//                    continue;
+//                }
+//            }
+//            }else {
+//            product.setName(productDTO.getName());
+//            product.setDescription(productDTO.getDescription());
+//            product.setPrice(productDTO.getPrice());
+//            product.setCount(productDTO.getCount());
+//            product.setStatus("ACTIVE");
+//            productDAO.addProduct(product);
+//        }
 
 //        if (products.size()==0){
 //            product.setName(productDTO.getName());

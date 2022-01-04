@@ -33,6 +33,11 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
+    @GetMapping("/product")
+    public Product getProduct(@RequestParam String name, String description, double price){
+         return productService.getProduct(name, description, price);
+    }
+
 
     @PostMapping("/add")
     public void addProduct(@RequestBody ProductDTO productDTO){

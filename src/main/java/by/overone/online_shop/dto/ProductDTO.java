@@ -15,5 +15,4 @@ public class ProductDTO {
     private String description;
     private double price;
     private long count;
-//    private String status;
 }

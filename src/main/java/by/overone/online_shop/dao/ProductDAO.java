@@ -14,6 +14,7 @@ public interface ProductDAO {
     List<Product> getAllProduct();
     List<Product> getAllProductByStatus(String status);
     Product getProductById(long id);
+    Product getProduct(String name, String description, double price);
     void addProduct(Product product);
     void updateProductCount(ProductUpdateForAddDTO productUpdateForAddDTO);
 
