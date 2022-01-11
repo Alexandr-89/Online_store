@@ -48,7 +48,7 @@ public class ProductDAOImpl implements ProductDAO {
     public Product getProduct(String name, String description, double price) {
         return jdbcTemplate.query(GET_PRODUCT,
                 new Object[]{name, description, price},
-                new BeanPropertyRowMapper<>(Product.class)).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(Product.class)).stream().findAny().orElse(new Product());
     }
 
     @Override
