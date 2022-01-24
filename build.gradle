@@ -28,8 +28,10 @@ dependencies {
 
     implementation 'javax.servlet:jstl:1.2'
 
+
     implementation 'org.hibernate:hibernate-entitymanager:5.4.33'
-    implementation 'org.springframework.data:spring-data-jpa:2.6.0'
+
+    implementation 'org.springframework.data:spring-data-jpa:2.6.1'
 }
 
 test {
