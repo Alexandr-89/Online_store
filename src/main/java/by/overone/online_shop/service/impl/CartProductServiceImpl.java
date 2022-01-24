@@ -18,19 +18,16 @@ public class CartProductServiceImpl implements CartProductService {
     @Override
     public void addCartProduct(CartProduct cartProduct) {
         CartProduct cartProducts = cartProductDAO.getCartProductByUserIdAndProductId(cartProduct.getUsers_id(),cartProduct.getProducts_id());
-        System.out.println(1+ cartProducts.toString());
         CartProduct cartProduct1 = new CartProduct();
         if(cartProducts.getUsers_id()!=0){
             cartProduct1.setUsers_id(cartProducts.getUsers_id());
             cartProduct1.setProducts_id(cartProducts.getProducts_id());
             cartProduct1.setCount(cartProduct.getCount()+cartProducts.getCount());
-            System.out.println(2+ cartProduct1.toString());
             cartProductDAO.updateProductCount(cartProduct1);
         }else {
             cartProduct1.setUsers_id(cartProduct.getUsers_id());
             cartProduct1.setProducts_id(cartProduct.getProducts_id());
             cartProduct1.setCount(cartProduct.getCount());
-            System.out.println(3+ cartProduct1.toString());
             cartProductDAO.addCartProduct(cartProduct1);
         }
     }

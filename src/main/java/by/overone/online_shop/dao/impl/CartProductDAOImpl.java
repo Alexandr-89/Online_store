@@ -57,7 +57,6 @@ public class CartProductDAOImpl implements CartProductDAO {
 
     @Override
     public void updateProductCount(CartProduct cartProduct) {
-        System.out.println(4+ cartProduct.toString());
         jdbcTemplate.update(UPDATE_CART_PRODUCT_BY_COUNT_QUERY, cartProduct.getCount(), cartProduct.getUsers_id(), cartProduct.getProducts_id());
     }
 }

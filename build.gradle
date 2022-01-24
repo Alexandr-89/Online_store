@@ -23,6 +23,13 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
     implementation 'commons-codec:commons-codec:1.15'
+
+
+
+    implementation 'javax.servlet:jstl:1.2'
+
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.33'
+    implementation 'org.springframework.data:spring-data-jpa:2.6.0'
 }
 
 test {
