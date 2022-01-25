@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,8 +18,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String producer;
     private String description;
     private double price;
     private long count;
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 }

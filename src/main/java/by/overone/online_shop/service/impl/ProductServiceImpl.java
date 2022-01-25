@@ -21,8 +21,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = productDAO.getAllProducts().stream()
-                .map(product -> new Product(product.getId(), product.getName(), product.getDescription(),
-                        product.getPrice(), product.getCount(), product.getStatus()))
+                .map(product -> new Product(product.getId(), product.getName(),product.getProducer(),
+                        product.getDescription(), product.getPrice(), product.getCount(), product.getStatus()))
                 .collect(Collectors.toList());
         return products;
     }
