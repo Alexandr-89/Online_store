@@ -15,7 +15,7 @@ public interface UserDAO {
 //    UserAllDetailsDTO getUserAllDetailsById(long id);
 //    User getUserByLogin(String login);
 //    User getUserByEmail(String email);
-//    void addUser(User user);
+    void addUser(User user);
 //    void deleteUser(long id);
 //    void updateUser(UserUpdateDTO userUpdateDTO);
 //    void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO);
