@@ -4,6 +4,7 @@ import by.overone.online_shop.dao.ProductDAO;
 import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.UserDTO;
 import by.overone.online_shop.model.Product;
+import by.overone.online_shop.model.Status;
 import by.overone.online_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,17 @@ public class ProductServiceImpl implements ProductService {
                         product.getDescription(), product.getPrice(), product.getCount(), product.getStatus()))
                 .collect(Collectors.toList());
         return products;
+    }
+
+    @Override
+    public void addProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setProducer(productDTO.getProducer());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setCount(productDTO.getCount());
+        product.setStatus(Status.ACTIVE);
+        productDAO.addProduct(product);
     }
 }

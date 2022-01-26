@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductDTO {
 
     private String name;
+    private String producer;
     private String description;
     private double price;
     private long count;

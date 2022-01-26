@@ -28,4 +28,9 @@ public class ProductDAOImpl implements ProductDAO {
         criteriaQuery.from(Product.class);
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
+
+    @Override
+    public void addProduct(Product product) {
+        entityManager.persist(product);
+    }
 }
