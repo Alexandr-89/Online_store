@@ -2,6 +2,8 @@ package by.overone.online_shop.service.impl;
 
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.*;
+import by.overone.online_shop.exception.EntityNotFoundException;
+import by.overone.online_shop.exception.ExceptionCode;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.model.UserDetail;
@@ -9,12 +11,13 @@ import by.overone.online_shop.service.UserService;
 import by.overone.online_shop.validator.UserValidator;
 import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -25,7 +28,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAllUsers() {
         List<UserDTO> userDTOs = userDAO.getAllUsers()
-                .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(), user.getRole(), user.getStatus()))
+                .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
+                        user.getRole(), user.getStatus()))
                 .collect(Collectors.toList());
         return userDTOs;
     }
@@ -33,14 +37,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAllActiveUsers(String status) {
         List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
-                .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(), user.getRole(), user.getStatus()))
+                .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
+                        user.getRole(), user.getStatus()))
                 .collect(Collectors.toList());
         return userDTOs;
     }
 
     @Override
     public void addUser(UserRegistretionDTO userRegistretionDTO) {
-        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
+//        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
         User user = new User();
         user.setLogin(userRegistretionDTO.getLogin());
         user.setPassword(userRegistretionDTO.getPassword());
@@ -53,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long id) {
         UserDTO userDTOs = new UserDTO();
-        User user =userDAO.getUserById(id);
+        User user =userDAO.getUserById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         userDTOs.setId(user.getId());
         userDTOs.setLogin(user.getLogin());
         userDTOs.setEmail(user.getEmail());
@@ -110,7 +115,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userUpdate(UserUpdateDTO userUpdateDTO) {
-        User user = userDAO.getUserById(userUpdateDTO.getId());
+        User user = userDAO.getUserById(userUpdateDTO.getId()).orElse(null);
         if (userUpdateDTO.getLogin()!=null){
             userUpdateDTO.setLogin(userUpdateDTO.getLogin());
         }else {
@@ -128,26 +133,7 @@ public class UserServiceImpl implements UserService {
         }
         userUpdateDTO.setRole(user.getRole());
         userUpdateDTO.setStatus(user.getStatus());
-//        if (userUpdateDTO.getName()!=null){
-//            userUpdateDTO.setName(userUpdateDTO.getName());
-//        }else {
-//            userUpdateDTO.setName(userAllDetailsDTO.getName());
-//        }
-//        if (userUpdateDTO.getSurname()!=null){
-//            userUpdateDTO.setSurname(userUpdateDTO.getSurname());
-//        }else {
-//            userUpdateDTO.setSurname(userAllDetailsDTO.getSurname());
-//        }
-//        if (userUpdateDTO.getAddress()!=null){
-//            userUpdateDTO.setAddress(userUpdateDTO.getAddress());
-//        }else {
-//            userUpdateDTO.setAddress(userAllDetailsDTO.getAddress());
-//        }
-//        if (userUpdateDTO.getPhone()!=null){
-//            userUpdateDTO.setPhone(userUpdateDTO.getPhone());
-//        }else {
-//            userUpdateDTO.setPhone(userAllDetailsDTO.getPhone());
-//        }
+
         userDAO.updateUser(userUpdateDTO);
     }
 

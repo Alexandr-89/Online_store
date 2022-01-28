@@ -5,6 +5,7 @@ import by.overone.online_shop.dto.*;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.model.UserDetail;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,13 +17,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class UserDAOImpl implements UserDAO {
 
     private final static String GET_ALL_USERS_QUERY = "SELECT * FROM users";
     private final static String GET_ALL_USER_BY_STATUS_QUERY = "SELECT * FROM users WHERE status=?";
-    private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
+    private final static String GET_USER_BY_ID_QUERY = "SELECT * FRO users WHERE id=?";
     private final static String GET_USER_DETAIL_BY_ID_QUERY = "SELECT * FROM users_details WHERE users_id=?";
     private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
     private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
@@ -60,10 +63,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserById(long id) {
+    public Optional<User> getUserById(long id) {
         return jdbcTemplate.query(GET_USER_BY_ID_QUERY,
                 new Object[]{id},
-                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(User.class)).stream().findAny();
     }
 
     @Override
