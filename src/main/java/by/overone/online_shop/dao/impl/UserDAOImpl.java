@@ -94,7 +94,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getUserByFuiiname(String name, String surname) {
+    public List<User> getUserByFullname(String name, String surname) {
         return jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY,
                 new Object[]{name, surname},
                 new BeanPropertyRowMapper<>(User.class));

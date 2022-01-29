@@ -4,16 +4,12 @@ import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.*;
 import by.overone.online_shop.exception.EntityNotFoundException;
 import by.overone.online_shop.exception.ExceptionCode;
-import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.model.UserDetail;
 import by.overone.online_shop.service.UserService;
-import by.overone.online_shop.validator.UserValidator;
-import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +41,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUserByFullname(String name, String surname) {
-        List<UserDTO> userDTOs = userDAO.getUserByFuiiname(name, surname)
+        List<User> users = userDAO.getUserByFullname(name, surname);
+        if (users.isEmpty()){
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
+        List<UserDTO> userDTOs = userDAO.getUserByFullname(name, surname)
                 .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
                         user.getRole(), user.getStatus()))
                 .collect(Collectors.toList());
