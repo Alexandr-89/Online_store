@@ -35,8 +35,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllActiveUsers(String status) {
+    public List<UserDTO> getAllUsersByStatus(String status) {
         List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
+                .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
+                        user.getRole(), user.getStatus()))
+                .collect(Collectors.toList());
+        return userDTOs;
+    }
+
+    @Override
+    public List<UserDTO> getUserByFullname(String name, String surname) {
+        List<UserDTO> userDTOs = userDAO.getUserByFuiiname(name, surname)
                 .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
                         user.getRole(), user.getStatus()))
                 .collect(Collectors.toList());
@@ -115,7 +124,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userUpdate(UserUpdateDTO userUpdateDTO) {
-        User user = userDAO.getUserById(userUpdateDTO.getId()).orElse(null);
+        User user = userDAO.getUserById(userUpdateDTO.getId()).orElseThrow(()->
+                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userUpdateDTO.getLogin()!=null){
             userUpdateDTO.setLogin(userUpdateDTO.getLogin());
         }else {

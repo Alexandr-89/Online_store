@@ -2,9 +2,8 @@ package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.*;
-import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
-import by.overone.online_shop.validator.exception.ValidatorException;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,66 +18,82 @@ public class UserController {
     private final UserService userService;
     private final UserDAO userDAO;
 
-    @GetMapping("/all")
-    public List<UserDTO> readAll() {
-        return userService.getAllUsers();
+//    @GetMapping
+//    public List<UserDTO> readAll() {
+//        return userService.getAllUsers();
+//    }
+
+//    @GetMapping("/{status}")
+//    public List<UserDTO> getAllUserByStatus(@PathVariable String status){
+//        return userService.getAllUsersByStatus(status);
+//    }
+
+
+    @GetMapping
+    public List<UserDTO> findUser(@RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "surname", required = false) String surname,
+                                  @RequestParam(value = "status", required = false) String status) {
+        if ((name == null) && (surname == null) && (status == null)){
+            return userService.getAllUsers();
+        }
+        if ((name == null) && (surname == null)){
+            return userService.getAllUsersByStatus(status);
+        }
+        if (status==null){
+            return userService.getUserByFullname(name, surname);
+        }
+            return null;
     }
 
-    @GetMapping("/byStatus")
-    public List<UserDTO> getAllUserByStatus(@RequestParam String status){
-        return userService.getAllActiveUsers(status);
-    }
 
-    @GetMapping("/byId")
-    public UserDTO getUserById(@RequestParam long id){
-        return userService.getUserById(id);
-    }
 
-    @GetMapping("/detailById")
-    public UserDetailDTO getUserDetailById(@RequestParam long users_id){
+
+    @GetMapping("/{id}")
+public UserDTO getUserById(@PathVariable long id){
+    return userService.getUserById(id);
+}
+
+    @GetMapping("/detail/{Id}")
+    public UserDetailDTO getUserDetailById(@PathVariable long users_id) {
         return userService.getUserDetailById(users_id);
     }
 
-    @GetMapping("/allDetailsById")
-    public UserAllDetailsDTO getUserAllDetailsById(@RequestParam long id){
+    @GetMapping("/allDetails/{Id}")
+    public UserAllDetailsDTO getUserAllDetailsById(@PathVariable long id) {
         return userService.getUserAllDetailsById(id);
     }
 
-    @GetMapping("/byLogin")
-    public UserDTO getUserByLogin(@RequestParam String login){
+    @GetMapping("/{login}")
+    public UserDTO getUserByLogin(@PathVariable String login){
         return userService.getUserByLogin(login);
     }
 
-    @GetMapping("/byEmail")
-    public UserDTO getUserByEmail(@RequestParam String email){
+    @GetMapping("/{email}")
+    public UserDTO getUserByEmail(@PathVariable String email){
         return userService.getUserByEmail(email);
     }
 
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO){
-        userService.addUser(userRegistretionDTO);
-    }
+//    @PostMapping("/add")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO) {
+//        userService.addUser(userRegistretionDTO);
+//    }
 
-    @GetMapping("/delete")
-    public void daleteUser(@RequestParam long id){
+
+    @DeleteMapping("/{id}")
+    public void daleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-    @PostMapping("/update")
-    public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO){
+    @PatchMapping
+    public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         userService.userUpdate(userUpdateDTO);
     }
 
-    @PostMapping("/updateDetails")
-    public void  updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO){
+    @PatchMapping("/details")
+    public void updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
         userService.userDetailUpdate(userDetailUpdateDTO);
     }
 
-
-    @GetMapping("/hello")
-    public String read() {
-        return "hello";
-    }
 
 }

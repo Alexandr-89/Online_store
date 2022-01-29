@@ -22,7 +22,11 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
                                                                          HttpHeaders headers, HttpStatus status,
                                                                          WebRequest request) {
-        return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
+        ExceptionResponse response = new ExceptionResponse();
+        response.setException(ex.getClass().getSimpleName());
+        response.setErrorCode("4");
+        response.setMessage("Not allowed");
+        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

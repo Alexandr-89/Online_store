@@ -18,20 +18,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Slf4j
 @Repository
 @RequiredArgsConstructor
 public class UserDAOImpl implements UserDAO {
 
     private final static String GET_ALL_USERS_QUERY = "SELECT * FROM users";
-    private final static String GET_ALL_USER_BY_STATUS_QUERY = "SELECT * FROM users WHERE status=?";
-    private final static String GET_USER_BY_ID_QUERY = "SELECT * FRO users WHERE id=?";
+    private final static String GET_ALL_USERS_BY_STATUS_QUERY = "SELECT * FROM users WHERE status=?";
+    private final static String GET_ALL_USERS_BY_NAME_QUERY = "SELECT * FROM users WHERE name=?";
+    private final static String GET_ALL_USERS_BY_SURNAME_QUERY = "SELECT * FROM users WHERE surname=?";
+    private final static String GET_ALL_USERS_BY_FULNAME_QUERY = "SELECT id, login, email, role, status FROM users JOIN users_details ON id=users_id WHERE name=? AND surname=?";
+    private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
     private final static String GET_USER_DETAIL_BY_ID_QUERY = "SELECT * FROM users_details WHERE users_id=?";
     private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
     private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
     private final static String ADD_USER_QUERY = "INSERT INTO users (login, password, email, role, status) VALUES(:login," +
             " :password, :email, :role, :status)";
-//    private final static String ADD_USER_QUERY = "INSERT INTO users VALUES(0,?,?,?,?,?)";
+    //    private final static String ADD_USER_QUERY = "INSERT INTO users VALUES(0,?,?,?,?,?)";
     private final static String ADD_USER_DETAILS_ID_QUERY = "INSERT INTO users_details(users_id) VALUE(?)";
     private final static String ADD_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
             "surname=?, address=?, phone=? WHERE users_id=?";
@@ -55,10 +59,44 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
+//    @Override
+//    public List<User> findUser(String name, String surname, String status) {
+//        if (name != null) {
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_NAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//        if (surname != null) {
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_SURNAME_QUERY , new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+////        if (name != null && surname != null) {
+////            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+////            return users;
+////        }
+//        if (status != null) {
+//            System.out.println(3);
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//        if (name == null && surname == null && status == null){
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//
+//            return null;
+//    }
+
     @Override
     public List<User> getAllUserByStatus(String status) {
-        return jdbcTemplate.query(GET_ALL_USER_BY_STATUS_QUERY,
+        return jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY,
                 new Object[]{status},
+                new BeanPropertyRowMapper<>(User.class));
+    }
+
+    @Override
+    public List<User> getUserByFuiiname(String name, String surname) {
+        return jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY,
+                new Object[]{name, surname},
                 new BeanPropertyRowMapper<>(User.class));
     }
 
