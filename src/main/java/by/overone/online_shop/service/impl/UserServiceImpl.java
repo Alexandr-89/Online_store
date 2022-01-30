@@ -9,6 +9,7 @@ import by.overone.online_shop.model.UserDetail;
 import by.overone.online_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,14 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
 
+
+
     @Override
     public List<UserDTO> getAllUsers() {
+        List<User> users = userDAO.getAllUsers();
+        if (users.isEmpty()){
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
         List<UserDTO> userDTOs = userDAO.getAllUsers()
                 .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
                         user.getRole(), user.getStatus()))
@@ -32,6 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUsersByStatus(String status) {
+        List<User> users = userDAO.getAllUserByStatus(status);
+        if (users.isEmpty()){
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
         List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
                 .stream().map(user -> new UserDTO(user.getId(), user.getLogin(), user.getEmail(),
                         user.getRole(), user.getStatus()))
