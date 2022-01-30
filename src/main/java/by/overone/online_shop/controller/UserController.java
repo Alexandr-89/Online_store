@@ -6,10 +6,12 @@ import by.overone.online_shop.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -73,11 +75,11 @@ public UserDTO getUserById(@PathVariable long id){
         return userService.getUserByEmail(email);
     }
 
-//    @PostMapping("/add")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void addUser(@RequestBody UserRegistretionDTO userRegistretionDTO) {
-//        userService.addUser(userRegistretionDTO);
-//    }
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addUser(@Validated @RequestBody UserRegistretionDTO userRegistretionDTO) {
+        userService.addUser(userRegistretionDTO);
+    }
 
 
     @DeleteMapping("/{id}")

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -78,7 +79,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long id) {
         UserDTO userDTOs = new UserDTO();
-        User user =userDAO.getUserById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+        User user =userDAO.getUserById(id)
+                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         userDTOs.setId(user.getId());
         userDTOs.setLogin(user.getLogin());
         userDTOs.setEmail(user.getEmail());
@@ -90,7 +92,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDTO getUserDetailById(long users_id) {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
-        UserDetail userDetail = userDAO.getUserDetailByUserId(users_id);
+        UserDetail userDetail = userDAO.getUserDetailByUserId(users_id)
+                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         userDetailDTO.setName(userDetail.getName());
         userDetailDTO.setSurname(userDetail.getSurname());
         userDetailDTO.setAddress(userDetail.getAddress());
@@ -160,7 +163,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userDetailUpdate(UserDetailUpdateDTO userDetailUpdateDTO) {
-        UserDetail userDetail = userDAO.getUserDetailByUserId(userDetailUpdateDTO.getUsers_id());
+        UserDetail userDetail = userDAO.getUserDetailByUserId(userDetailUpdateDTO.getUsers_id()).orElseThrow(()->
+                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userDetailUpdateDTO.getName()!=null){
             userDetailUpdateDTO.setName(userDetailUpdateDTO.getName());
         }else {

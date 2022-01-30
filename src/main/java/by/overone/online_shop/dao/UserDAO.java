@@ -15,7 +15,7 @@ public interface UserDAO {
     List<User> getAllUserByStatus(String status);
     List<User> getUserByFullname(String name, String surname);
     Optional<User> getUserById(long id);
-    UserDetail getUserDetailByUserId(long users_id);
+    Optional<UserDetail> getUserDetailByUserId(long users_id);
     UserAllDetailsDTO getUserAllDetailsById(long id);
     User getUserByLogin(String login);
     User getUserByEmail(String email);

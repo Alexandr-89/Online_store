@@ -110,10 +110,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserDetail getUserDetailByUserId(long users_id) {
+    public Optional<UserDetail> getUserDetailByUserId(long users_id) {
         return jdbcTemplate.query(GET_USER_DETAIL_BY_ID_QUERY,
                 new Object[]{users_id},
-                new BeanPropertyRowMapper<>(UserDetail.class)).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(UserDetail.class)).stream().findAny();
     }
 
     @Override
