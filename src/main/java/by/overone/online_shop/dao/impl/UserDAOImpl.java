@@ -2,6 +2,8 @@ package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.UserDAO;
 import by.overone.online_shop.dto.*;
+import by.overone.online_shop.model.Role;
+import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
 import by.overone.online_shop.model.UserDetail;
 import lombok.RequiredArgsConstructor;
@@ -61,32 +63,7 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
-//    @Override
-//    public List<User> findUser(String name, String surname, String status) {
-//        if (name != null) {
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_NAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//        if (surname != null) {
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_SURNAME_QUERY , new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-////        if (name != null && surname != null) {
-////            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-////            return users;
-////        }
-//        if (status != null) {
-//            System.out.println(3);
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//        if (name == null && surname == null && status == null){
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//
-//            return null;
-//    }
+
 
     @Override
     public List<User> getAllUserByStatus(String status) {
@@ -145,8 +122,8 @@ public class UserDAOImpl implements UserDAO {
                 .addValue("login", user.getLogin())
                 .addValue("password", user.getPassword())
                 .addValue("email", user.getEmail())
-                .addValue("role", user.getRole())
-                .addValue("status", user.getStatus());
+                .addValue("role", Role.CUSTOMER.toString())
+                .addValue("status", Status.ACTIVE.toString());
         namedParameterJdbcTemplate.update(ADD_USER_QUERY, sqlParameterSource, keyHolder, new String[]{"id"});
         user.setId(keyHolder.getKey().longValue());
         jdbcTemplate.update(ADD_USER_DETAILS_ID_QUERY, user.getId());
@@ -158,17 +135,45 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-    @Override
-    public void updateUser(UserUpdateDTO userUpdateDTO) {
-        System.out.println(userUpdateDTO.toString());
-        jdbcTemplate.update(UPDATE_USER_QUERY, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
-                userUpdateDTO.getEmail(), userUpdateDTO.getRole(), userUpdateDTO.getStatus(), userUpdateDTO.getId());
-    }
-
-    @Override
-    public void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO) {
-        System.out.println(userDetailUpdateDTO.toString());
-        jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, userDetailUpdateDTO.getName(), userDetailUpdateDTO.getSurname(),
-                userDetailUpdateDTO.getAddress(), userDetailUpdateDTO.getPhone(), userDetailUpdateDTO.getUsers_id());
-    }
+//    @Override
+//    public void updateUser(UserUpdateDTO userUpdateDTO) {
+//        System.out.println(userUpdateDTO.toString());
+//        jdbcTemplate.update(UPDATE_USER_QUERY, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
+//                userUpdateDTO.getEmail(), userUpdateDTO.getRole(), userUpdateDTO.getStatus(), userUpdateDTO.getId());
+//    }
+//
+//    @Override
+//    public void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO) {
+//        System.out.println(userDetailUpdateDTO.toString());
+//        jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, userDetailUpdateDTO.getName(), userDetailUpdateDTO.getSurname(),
+//                userDetailUpdateDTO.getAddress(), userDetailUpdateDTO.getPhone(), userDetailUpdateDTO.getUsers_id());
+//    }
 }
+
+
+//    @Override
+//    public List<User> findUser(String name, String surname, String status) {
+//        if (name != null) {
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_NAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//        if (surname != null) {
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_SURNAME_QUERY , new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+////        if (name != null && surname != null) {
+////            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+////            return users;
+////        }
+//        if (status != null) {
+//            System.out.println(3);
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//        if (name == null && surname == null && status == null){
+//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
+//            return users;
+//        }
+//
+//            return null;
+//    }

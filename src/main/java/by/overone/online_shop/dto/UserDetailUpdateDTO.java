@@ -13,5 +13,5 @@ public class UserDetailUpdateDTO {
     private String surname;
     private String address;
     private String phone;
-    private long users_id;
+//    private long users_id;
 }

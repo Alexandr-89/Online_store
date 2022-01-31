@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
-    private long id;
+//    private long id;
     private String login;
     private String email;
-    private String role;
-    private String status;
+//    private String role;
+//    private String status;
 }

@@ -1,5 +1,7 @@
 package by.overone.online_shop.dto;
 
+import by.overone.online_shop.model.Role;
+import by.overone.online_shop.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserUpdateDTO {
 
-    private long id;
+//    private long id;
     private String login;
     private String password;
     private String email;
-    private String role;
-    private String status;
+    private Role role;
+    private Status status;
 }

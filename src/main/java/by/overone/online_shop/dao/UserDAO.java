@@ -21,7 +21,7 @@ public interface UserDAO {
     User getUserByEmail(String email);
     void addUser(User user);
     void deleteUser(long id);
-    void updateUser(UserUpdateDTO userUpdateDTO);
-    void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO);
+//    void updateUser(UserUpdateDTO userUpdateDTO);
+//    void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO);
 
 }

@@ -97,7 +97,8 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
         response.setException(ex.getClass().getSimpleName());
-        response.setMessage("???");
-        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+        response.setErrorCode("6");
+        response.setMessage(messageSource.getMessage("6", null, request.getLocale()));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

@@ -87,15 +87,15 @@ public UserDTO getUserById(@PathVariable long id){
         userService.deleteUser(id);
     }
 
-    @PatchMapping
-    public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
-        userService.userUpdate(userUpdateDTO);
-    }
-
-    @PatchMapping("/details")
-    public void updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
-        userService.userDetailUpdate(userDetailUpdateDTO);
-    }
+//    @PatchMapping
+//    public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+//        userService.userUpdate(userUpdateDTO);
+//    }
+//
+//    @PatchMapping("/details")
+//    public void updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
+//        userService.userDetailUpdate(userDetailUpdateDTO);
+//    }
 
 
 }
