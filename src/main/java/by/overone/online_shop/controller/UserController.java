@@ -83,19 +83,19 @@ public UserDTO getUserById(@PathVariable long id){
 
 
     @DeleteMapping("/{id}")
-    public void daleteUser(@PathVariable long id) {
+    public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-//    @PatchMapping
-//    public void updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
-//        userService.userUpdate(userUpdateDTO);
-//    }
-//
-//    @PatchMapping("/details")
-//    public void updateDetailsUser(@RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
-//        userService.userDetailUpdate(userDetailUpdateDTO);
-//    }
+    @PatchMapping("/{id}")
+    public void updateUser(@PathVariable long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        userService.userUpdate(id, userUpdateDTO);
+    }
+
+    @PatchMapping("/details/{userId}")
+    public void updateDetailsUser(@PathVariable long userId, @RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
+        userService.userDetailUpdate(userId, userDetailUpdateDTO);
+    }
 
 
 }

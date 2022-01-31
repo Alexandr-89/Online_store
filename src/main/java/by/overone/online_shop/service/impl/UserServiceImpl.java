@@ -136,57 +136,57 @@ public class UserServiceImpl implements UserService {
         userDAO.deleteUser(id);
     }
 
-//    @Override
-//    public void userUpdate(UserUpdateDTO userUpdateDTO) {
-//        User user = userDAO.getUserById(userUpdateDTO.getId()).orElseThrow(()->
-//                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        if (userUpdateDTO.getLogin()!=null){
-//            userUpdateDTO.setLogin(userUpdateDTO.getLogin());
-//        }else {
-//            userUpdateDTO.setLogin(user.getLogin());
-//        }
-//        if (userUpdateDTO.getPassword()!=null){
-//            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
-//        }else {
-//            userUpdateDTO.setPassword(user.getPassword());
-//        }
-//        if (userUpdateDTO.getEmail()!=null){
-//            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
-//        }else {
-//            userUpdateDTO.setEmail(user.getEmail());
-//        }
-//        userUpdateDTO.setRole(user.getRole());
-//        userUpdateDTO.setStatus(user.getStatus());
-//
-//        userDAO.updateUser(userUpdateDTO);
-//    }
-//
-//    @Override
-//    public void userDetailUpdate(UserDetailUpdateDTO userDetailUpdateDTO) {
-//        UserDetail userDetail = userDAO.getUserDetailByUserId(userDetailUpdateDTO.getUsers_id()).orElseThrow(()->
-//                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        if (userDetailUpdateDTO.getName()!=null){
-//            userDetailUpdateDTO.setName(userDetailUpdateDTO.getName());
-//        }else {
-//            userDetailUpdateDTO.setName(userDetail.getName());
-//        }
-//        if (userDetailUpdateDTO.getSurname()!=null){
-//            userDetailUpdateDTO.setSurname(userDetailUpdateDTO.getSurname());
-//        }else {
-//            userDetailUpdateDTO.setSurname(userDetail.getSurname());
-//        }
-//        if (userDetailUpdateDTO.getAddress()!=null){
-//            userDetailUpdateDTO.setAddress(userDetailUpdateDTO.getAddress());
-//        }else {
-//            userDetailUpdateDTO.setAddress(userDetail.getAddress());
-//        }
-//        if (userDetailUpdateDTO.getPhone()!=null){
-//            userDetailUpdateDTO.setPhone(userDetailUpdateDTO.getPhone());
-//        }else {
-//            userDetailUpdateDTO.setPhone(userDetail.getPhone());
-//        }
-//        userDAO.updateUserDetails(userDetailUpdateDTO);
-//    }
+    @Override
+    public void userUpdate(long id, UserUpdateDTO userUpdateDTO) {
+        User user = userDAO.getUserById(id).orElseThrow(()->
+                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+        if (userUpdateDTO.getLogin()!=null){
+            userUpdateDTO.setLogin(userUpdateDTO.getLogin());
+        }else {
+            userUpdateDTO.setLogin(user.getLogin());
+        }
+        if (userUpdateDTO.getPassword()!=null){
+            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
+        }else {
+            userUpdateDTO.setPassword(user.getPassword());
+        }
+        if (userUpdateDTO.getEmail()!=null){
+            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
+        }else {
+            userUpdateDTO.setEmail(user.getEmail());
+        }
+        userUpdateDTO.setRole(Role.CUSTOMER);
+        userUpdateDTO.setStatus(Status.ACTIVE);
+
+        userDAO.updateUser(id, userUpdateDTO);
+    }
+
+    @Override
+    public void userDetailUpdate(long userId, UserDetailUpdateDTO userDetailUpdateDTO) {
+        UserDetail userDetail = userDAO.getUserDetailByUserId(userId).orElseThrow(()->
+                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+        if (userDetailUpdateDTO.getName()!=null){
+            userDetailUpdateDTO.setName(userDetailUpdateDTO.getName());
+        }else {
+            userDetailUpdateDTO.setName(userDetail.getName());
+        }
+        if (userDetailUpdateDTO.getSurname()!=null){
+            userDetailUpdateDTO.setSurname(userDetailUpdateDTO.getSurname());
+        }else {
+            userDetailUpdateDTO.setSurname(userDetail.getSurname());
+        }
+        if (userDetailUpdateDTO.getAddress()!=null){
+            userDetailUpdateDTO.setAddress(userDetailUpdateDTO.getAddress());
+        }else {
+            userDetailUpdateDTO.setAddress(userDetail.getAddress());
+        }
+        if (userDetailUpdateDTO.getPhone()!=null){
+            userDetailUpdateDTO.setPhone(userDetailUpdateDTO.getPhone());
+        }else {
+            userDetailUpdateDTO.setPhone(userDetail.getPhone());
+        }
+        userDAO.updateUserDetails(userId, userDetailUpdateDTO);
+    }
 
 
 }

@@ -60,15 +60,15 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
-        ExceptionResponse response = new ExceptionResponse();
-        response.setException(e.getClass().getSimpleName());
-        response.setErrorCode("3");
-        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
-        log.info("SQL exception", e);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(SQLException.class)
+//    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
+//        ExceptionResponse response = new ExceptionResponse();
+//        response.setException(e.getClass().getSimpleName());
+//        response.setErrorCode("3");
+//        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
+//        log.info("SQL exception", e);
+//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ExceptionResponse> entityAlreadyExistHandler(DuplicateKeyException e, WebRequest request) {

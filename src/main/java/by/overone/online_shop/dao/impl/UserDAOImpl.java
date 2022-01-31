@@ -135,19 +135,19 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-//    @Override
-//    public void updateUser(UserUpdateDTO userUpdateDTO) {
-//        System.out.println(userUpdateDTO.toString());
-//        jdbcTemplate.update(UPDATE_USER_QUERY, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
-//                userUpdateDTO.getEmail(), userUpdateDTO.getRole(), userUpdateDTO.getStatus(), userUpdateDTO.getId());
-//    }
-//
-//    @Override
-//    public void updateUserDetails(UserDetailUpdateDTO userDetailUpdateDTO) {
-//        System.out.println(userDetailUpdateDTO.toString());
-//        jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, userDetailUpdateDTO.getName(), userDetailUpdateDTO.getSurname(),
-//                userDetailUpdateDTO.getAddress(), userDetailUpdateDTO.getPhone(), userDetailUpdateDTO.getUsers_id());
-//    }
+    @Override
+    public void updateUser(long id, UserUpdateDTO userUpdateDTO) {
+        System.out.println(userUpdateDTO.toString());
+        jdbcTemplate.update(UPDATE_USER_QUERY, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
+                userUpdateDTO.getEmail(), userUpdateDTO.getRole().toString(), userUpdateDTO.getStatus().toString(),id);
+    }
+
+    @Override
+    public void updateUserDetails(long userId, UserDetailUpdateDTO userDetailUpdateDTO) {
+        System.out.println(userDetailUpdateDTO.toString());
+        jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, userDetailUpdateDTO.getName(), userDetailUpdateDTO.getSurname(),
+                userDetailUpdateDTO.getAddress(), userDetailUpdateDTO.getPhone(), userId);
+    }
 }
 
 

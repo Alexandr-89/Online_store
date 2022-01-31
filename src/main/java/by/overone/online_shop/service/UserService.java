@@ -18,7 +18,7 @@ public interface UserService {
     UserDTO getUserByLogin(String login);
     UserDTO getUserByEmail(String email);
     void deleteUser(long id);
-//    void userUpdate(UserUpdateDTO userUpdateDTO);
-//    void userDetailUpdate(UserDetailUpdateDTO userDetailUpdateDTO);
+    void userUpdate(long id, UserUpdateDTO userUpdateDTO);
+    void userDetailUpdate(long userId, UserDetailUpdateDTO userDetailUpdateDTO);
 
 }
