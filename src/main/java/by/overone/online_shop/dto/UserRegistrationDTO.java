@@ -1,10 +1,11 @@
 package by.overone.online_shop.dto;
 
+import by.overone.online_shop.model.Role;
 import by.overone.online_shop.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -12,18 +13,16 @@ import javax.validation.constraints.Pattern;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class UserRegistrationDTO {
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]{2,40}$")
-    private String name;
+    @Pattern(regexp = "^[\\w]{4,12}$")
+    private String login;
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$")
-    private String description;
+    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
+    private String password;
     @NotEmpty
-    @Pattern(regexp = "^[\\d\\D]{1,8}$")
-    private double price;
-    @NotEmpty
-    @Pattern(regexp = "^[\\d]{1,3}$")
-    private long count;
+    @Pattern(regexp = "^[\\w]{8,16}$")
+    private String email;
+
 }

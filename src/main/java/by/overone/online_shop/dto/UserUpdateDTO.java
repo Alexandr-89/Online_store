@@ -6,15 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Pattern;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateDTO {
 
-//    private long id;
+    @Pattern(regexp = "^[\\w]{4,12}$")
     private String login;
+    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
     private String password;
+    @Pattern(regexp = "^[\\w]{8,16}$")
     private String email;
-    private Role role;
-    private Status status;
 }

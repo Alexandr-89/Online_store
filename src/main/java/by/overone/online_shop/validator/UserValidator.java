@@ -1,7 +1,7 @@
 package by.overone.online_shop.validator;
 
 
-import by.overone.online_shop.dto.UserRegistretionDTO;
+import by.overone.online_shop.dto.UserRegistrationDTO;
 import by.overone.online_shop.validator.exception.ValidatorException;
 
 public class UserValidator {
@@ -13,7 +13,7 @@ public class UserValidator {
     private final static String NAME_REGEX = "^[a-zA-Z]{2,30}$";
     private final static String ADDRESS_REGEX = "^[\\w]{5,50}$";
 
-    public static boolean validatorUserRegistrationDTO(UserRegistretionDTO user) {
+    public static boolean validatorUserRegistrationDTO(UserRegistrationDTO user) {
         if (validateLogin(user.getLogin()) && validatePassword(user.getPassword()) && validateEmail(user.getEmail())){
             return validateLogin(user.getLogin()) && validatePassword(user.getPassword()) && validateEmail(user.getEmail());
         }else {

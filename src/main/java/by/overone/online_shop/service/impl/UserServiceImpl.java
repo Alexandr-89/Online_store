@@ -11,11 +11,9 @@ import by.overone.online_shop.model.UserDetail;
 import by.overone.online_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,44 +26,44 @@ public class UserServiceImpl implements UserService {
 
 
 
-    @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userDAO.getAllUsers();
-        if (users.isEmpty()){
-            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-        }
-        List<UserDTO> userDTOs = userDAO.getAllUsers()
-                .stream().map(user -> new UserDTO( user.getLogin(), user.getEmail()))
-                .collect(Collectors.toList());
-        return userDTOs;
-    }
+//    @Override
+//    public List<UserDTO> getAllUsers() {
+//        List<User> users = userDAO.getAllUsers();
+//        if (users.isEmpty()){
+//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+//        }
+//        List<UserDTO> userDTOs = userDAO.getAllUsers()
+//                .stream().map(user -> new UserDTO( user.getLogin(), user.getEmail()))
+//                .collect(Collectors.toList());
+//        return userDTOs;
+//    }
+
+//    @Override
+//    public List<UserDTO> getAllUsersByStatus(String status) {
+//        List<User> users = userDAO.getAllUserByStatus(status);
+//        if (users.isEmpty()){
+//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+//        }
+//        List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
+//                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
+//                .collect(Collectors.toList());
+//        return userDTOs;
+//    }
+
+//    @Override
+//    public List<UserDTO> getUserByFullname(String name, String surname) {
+//        List<User> users = userDAO.getUserByFullname(name, surname);
+//        if (users.isEmpty()){
+//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+//        }
+//        List<UserDTO> userDTOs = userDAO.getUserByFullname(name, surname)
+//                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
+//                .collect(Collectors.toList());
+//        return userDTOs;
+//    }
 
     @Override
-    public List<UserDTO> getAllUsersByStatus(String status) {
-        List<User> users = userDAO.getAllUserByStatus(status);
-        if (users.isEmpty()){
-            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-        }
-        List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
-                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-                .collect(Collectors.toList());
-        return userDTOs;
-    }
-
-    @Override
-    public List<UserDTO> getUserByFullname(String name, String surname) {
-        List<User> users = userDAO.getUserByFullname(name, surname);
-        if (users.isEmpty()){
-            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-        }
-        List<UserDTO> userDTOs = userDAO.getUserByFullname(name, surname)
-                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-                .collect(Collectors.toList());
-        return userDTOs;
-    }
-
-    @Override
-    public void addUser(UserRegistretionDTO userRegistretionDTO) {
+    public void addUser(UserRegistrationDTO userRegistretionDTO) {
 //        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
         User user = new User();
         user.setLogin(userRegistretionDTO.getLogin());
@@ -101,34 +99,34 @@ public class UserServiceImpl implements UserService {
         return userDetailDTO;
     }
 
-    @Override
-    public UserAllDetailsDTO getUserAllDetailsById(long id) {
-        return userDAO.getUserAllDetailsById(id);
-    }
+//    @Override
+//    public UserAllDetailsDTO getUserAllDetailsById(long id) {
+//        return userDAO.getUserAllDetailsById(id);
+//    }
+//
+//    @Override
+//    public UserDTO getUserByLogin(String login) {
+//        UserDTO userDTOs = new UserDTO();
+//        User user =userDAO.getUserByLogin(login);
+////        userDTOs.setId(user.getId());
+//        userDTOs.setLogin(user.getLogin());
+//        userDTOs.setEmail(user.getEmail());
+////        userDTOs.setRole(user.getRole());
+////        userDTOs.setStatus(user.getStatus());
+//        return userDTOs;
+//    }
 
-    @Override
-    public UserDTO getUserByLogin(String login) {
-        UserDTO userDTOs = new UserDTO();
-        User user =userDAO.getUserByLogin(login);
-//        userDTOs.setId(user.getId());
-        userDTOs.setLogin(user.getLogin());
-        userDTOs.setEmail(user.getEmail());
-//        userDTOs.setRole(user.getRole());
-//        userDTOs.setStatus(user.getStatus());
-        return userDTOs;
-    }
-
-    @Override
-    public UserDTO getUserByEmail(String email) {
-        UserDTO userDTOs = new UserDTO();
-        User user =userDAO.getUserByEmail(email);
-//        userDTOs.setId(user.getId());
-        userDTOs.setLogin(user.getLogin());
-        userDTOs.setEmail(user.getEmail());
-//        userDTOs.setRole(user.getRole());
-//        userDTOs.setStatus(user.getStatus());
-        return userDTOs;
-    }
+//    @Override
+//    public UserDTO getUserByEmail(String email) {
+//        UserDTO userDTOs = new UserDTO();
+//        User user =userDAO.getUserByEmail(email);
+////        userDTOs.setId(user.getId());
+//        userDTOs.setLogin(user.getLogin());
+//        userDTOs.setEmail(user.getEmail());
+////        userDTOs.setRole(user.getRole());
+////        userDTOs.setStatus(user.getStatus());
+//        return userDTOs;
+//    }
 
     @Override
     public void deleteUser(long id) {
@@ -141,24 +139,16 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getUserById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userUpdateDTO.getLogin()!=null){
-            userUpdateDTO.setLogin(userUpdateDTO.getLogin());
-        }else {
-            userUpdateDTO.setLogin(user.getLogin());
+            user.setLogin(userUpdateDTO.getLogin());
         }
         if (userUpdateDTO.getPassword()!=null){
-            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
-        }else {
-            userUpdateDTO.setPassword(user.getPassword());
+            user.setPassword(userUpdateDTO.getPassword());
         }
         if (userUpdateDTO.getEmail()!=null){
-            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
-        }else {
-            userUpdateDTO.setEmail(user.getEmail());
+            user.setEmail(userUpdateDTO.getEmail());
         }
-        userUpdateDTO.setRole(Role.CUSTOMER);
-        userUpdateDTO.setStatus(Status.ACTIVE);
 
-        userDAO.updateUser(id, userUpdateDTO);
+        userDAO.updateUser(id, user);
     }
 
     @Override
@@ -188,5 +178,42 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUserDetails(userId, userDetailUpdateDTO);
     }
 
+    @Override
+    public List<UserDTO> findUsers(UserDetailsForGetDTO userForGetDTO) {
+        List<UserDTO> userDTOs = userDAO.findUsers(userForGetDTO)
+                .stream().map(user -> new UserDTO( user.getLogin(), user.getEmail()))
+                .collect(Collectors.toList());
+        if (userDTOs.size()!=0){
+            return userDTOs;
+        }else{
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
+    }
+
 
 }
+
+//    @Override
+//    public void userUpdate(long id, UserUpdateDTO userUpdateDTO) {
+//        User user = userDAO.getUserById(id).orElseThrow(()->
+//                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+//        if (userUpdateDTO.getLogin()!=null){
+//            user.setLogin(userUpdateDTO.getLogin());
+//        }else {
+//            userUpdateDTO.setLogin(user.getLogin());
+//        }
+//        if (userUpdateDTO.getPassword()!=null){
+//            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
+//        }else {
+//            userUpdateDTO.setPassword(user.getPassword());
+//        }
+//        if (userUpdateDTO.getEmail()!=null){
+//            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
+//        }else {
+//            userUpdateDTO.setEmail(user.getEmail());
+//        }
+//        userUpdateDTO.setRole(Role.CUSTOMER);
+//        userUpdateDTO.setStatus(Status.ACTIVE);
+//
+//        userDAO.updateUser(id, userUpdateDTO);
+//    }

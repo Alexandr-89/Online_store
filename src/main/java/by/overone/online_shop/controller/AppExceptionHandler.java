@@ -2,7 +2,6 @@ package by.overone.online_shop.controller;
 
 import by.overone.online_shop.controller.exception.ExceptionResponse;
 import by.overone.online_shop.exception.EntityNotFoundException;
-import by.overone.online_shop.validator.exception.ValidatorException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -38,6 +37,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         response.setException(ex.getClass().getSimpleName());
         response.setErrorCode("4");
         response.setMessage(messageSource.getMessage("4", null, request.getLocale()));
+        log.error("NOT_ALLOWED", ex);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
@@ -56,19 +56,19 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 break;
         }
         response.setMessage(message);
-        log.info("Not found", e);
+        log.error("Not found", e);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(SQLException.class)
-//    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
-//        ExceptionResponse response = new ExceptionResponse();
-//        response.setException(e.getClass().getSimpleName());
-//        response.setErrorCode("3");
-//        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
-//        log.info("SQL exception", e);
-//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setException(e.getClass().getSimpleName());
+        response.setErrorCode("3");
+        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
+        log.error("SQL exception", e);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ExceptionResponse> entityAlreadyExistHandler(DuplicateKeyException e, WebRequest request) {
@@ -76,7 +76,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         response.setException(e.getClass().getSimpleName());
         response.setErrorCode("5");
         response.setMessage(messageSource.getMessage("5", null, request.getLocale()));
-        log.info("ALREADY EXIST EXCEPTION: ", e);
+        log.error("ALREADY EXIST EXCEPTION: ", e);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -90,7 +90,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(error -> new ExceptionResponse(error.getField() + " " + error.getDefaultMessage(),
                         null, null)).collect(Collectors.toList());
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -99,6 +99,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         response.setException(ex.getClass().getSimpleName());
         response.setErrorCode("6");
         response.setMessage(messageSource.getMessage("6", null, request.getLocale()));
+        log.error("BAD_REQUEST", ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

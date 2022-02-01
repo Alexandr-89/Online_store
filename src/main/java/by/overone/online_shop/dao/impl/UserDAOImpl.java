@@ -26,25 +26,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDAOImpl implements UserDAO {
 
-    private final static String GET_ALL_USERS_QUERY = "SELECT * FROM users";
-    private final static String GET_ALL_USERS_BY_STATUS_QUERY = "SELECT * FROM users WHERE status=?";
-    private final static String GET_ALL_USERS_BY_NAME_QUERY = "SELECT * FROM users WHERE name=?";
-    private final static String GET_ALL_USERS_BY_SURNAME_QUERY = "SELECT * FROM users WHERE surname=?";
-    private final static String GET_ALL_USERS_BY_FULNAME_QUERY = "SELECT id, login, email, role," +
-            " status FROM users JOIN users_details ON id=users_id WHERE name=? AND surname=?";
+//    private final static String GET_ALL_USERS_QUERY = "SELECT * FROM users";
+//    private final static String GET_ALL_USERS_BY_STATUS_QUERY = "SELECT * FROM users WHERE status=?";
+//    private final static String GET_ALL_USERS_BY_NAME_QUERY = "SELECT * FROM users WHERE name=?";
+//    private final static String GET_ALL_USERS_BY_SURNAME_QUERY = "SELECT * FROM users WHERE surname=?";
+//    private final static String GET_ALL_USERS_BY_FULNAME_QUERY = "SELECT id, login, email, role," +
+//            " status FROM users JOIN users_details ON id=users_id WHERE name=? AND surname=?";
     private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
     private final static String GET_USER_DETAIL_BY_ID_QUERY = "SELECT * FROM users_details WHERE users_id=?";
-    private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
-    private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
+//    private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
+//    private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
     private final static String ADD_USER_QUERY = "INSERT INTO users (login, password, email, role, status)" +
             " VALUES(:login, :password, :email, :role, :status)";
     //    private final static String ADD_USER_QUERY = "INSERT INTO users VALUES(0,?,?,?,?,?)";
     private final static String ADD_USER_DETAILS_ID_QUERY = "INSERT INTO users_details(users_id) VALUE(?)";
-    private final static String ADD_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
-            "surname=?, address=?, phone=? WHERE users_id=?";
+//    private final static String ADD_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
+//            "surname=?, address=?, phone=? WHERE users_id=?";
     private final static String DELETE_USER_QUERY = "UPDATE users SET status='INACTIVE' WHERE id=?";
-    private final static String GET_USER_ALL_DATA_BY_ID_QUERY = "SELECT*FROM users JOIN users_details ON " +
-            "id=users_id WHERE id=?";
+//    private final static String GET_USER_ALL_DATA_BY_ID_QUERY = "SELECT*FROM users JOIN users_details ON " +
+//            "id=users_id WHERE id=?";
     private final static String UPDATE_USER_QUERY = "UPDATE users SET login=?, password=?," +
             " email=?, role=?, status=?  WHERE id=?";
     private final static String UPDATE_USER_DETAILS_QUERY = "UPDATE users_details SET name=?, " +
@@ -57,27 +57,26 @@ public class UserDAOImpl implements UserDAO {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
-    @Override
-    public List<User> getAllUsers() {
-        List<User> users = jdbcTemplate.query(GET_ALL_USERS_QUERY, new BeanPropertyRowMapper<>(User.class));
-        return users;
-    }
+//    @Override
+//    public List<User> getAllUsers() {
+//        List<User> users = jdbcTemplate.query(GET_ALL_USERS_QUERY, new BeanPropertyRowMapper<>(User.class));
+//        return users;
+//    }
 
 
+//    @Override
+//    public List<User> getAllUserByStatus(String status) {
+//        return jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY,
+//                new Object[]{status},
+//                new BeanPropertyRowMapper<>(User.class));
+//    }
 
-    @Override
-    public List<User> getAllUserByStatus(String status) {
-        return jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY,
-                new Object[]{status},
-                new BeanPropertyRowMapper<>(User.class));
-    }
-
-    @Override
-    public List<User> getUserByFullname(String name, String surname) {
-        return jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY,
-                new Object[]{name, surname},
-                new BeanPropertyRowMapper<>(User.class));
-    }
+//    @Override
+//    public List<User> getUserByFullname(String name, String surname) {
+//        return jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY,
+//                new Object[]{name, surname},
+//                new BeanPropertyRowMapper<>(User.class));
+//    }
 
     @Override
     public Optional<User> getUserById(long id) {
@@ -93,26 +92,27 @@ public class UserDAOImpl implements UserDAO {
                 new BeanPropertyRowMapper<>(UserDetail.class)).stream().findAny();
     }
 
-    @Override
-    public UserAllDetailsDTO getUserAllDetailsById(long id) {
-        return jdbcTemplate.query(GET_USER_ALL_DATA_BY_ID_QUERY,
-                new Object[]{id},
-                new BeanPropertyRowMapper<>(UserAllDetailsDTO.class)).stream().findAny().orElse(null);
-    }
 
-    @Override
-    public User getUserByLogin(String login) {
-        return jdbcTemplate.query(GET_USER_BY_LOGIN_QUERY,
-                new Object[]{login},
-                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
-    }
+//    @Override
+//    public Optional<UserAllDetailsDTO> getUserAllDetailsById(long id) {
+//        return jdbcTemplate.query(GET_USER_ALL_DATA_BY_ID_QUERY,
+//                new Object[]{id},
+//                new BeanPropertyRowMapper<>(UserAllDetailsDTO.class)).stream().findAny();
+//    }
 
-    @Override
-    public User getUserByEmail(String email) {
-        return jdbcTemplate.query(GET_USER_BY_EMAIL_QUERY,
-                new Object[]{email},
-                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
-    }
+//    @Override
+//    public User getUserByLogin(String login) {
+//        return jdbcTemplate.query(GET_USER_BY_LOGIN_QUERY,
+//                new Object[]{login},
+//                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
+//    }
+
+//    @Override
+//    public User getUserByEmail(String email) {
+//        return jdbcTemplate.query(GET_USER_BY_EMAIL_QUERY,
+//                new Object[]{email},
+//                new BeanPropertyRowMapper<>(User.class)).stream().findAny().orElse(null);
+//    }
 
     @Override
     @Transactional
@@ -136,10 +136,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(long id, UserUpdateDTO userUpdateDTO) {
-        System.out.println(userUpdateDTO.toString());
-        jdbcTemplate.update(UPDATE_USER_QUERY, userUpdateDTO.getLogin(), userUpdateDTO.getPassword(),
-                userUpdateDTO.getEmail(), userUpdateDTO.getRole().toString(), userUpdateDTO.getStatus().toString(),id);
+    public void updateUser(long id, User user) {
+        System.out.println(user.toString());
+        jdbcTemplate.update(UPDATE_USER_QUERY, user.getLogin(), user.getPassword(),
+                user.getEmail(), user.getRole().toString(), user.getStatus().toString(), id);
     }
 
     @Override
@@ -148,32 +148,48 @@ public class UserDAOImpl implements UserDAO {
         jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, userDetailUpdateDTO.getName(), userDetailUpdateDTO.getSurname(),
                 userDetailUpdateDTO.getAddress(), userDetailUpdateDTO.getPhone(), userId);
     }
+
+    @Override
+    public List<User> findUsers(UserDetailsForGetDTO user) {
+
+        String sql = "SELECT * FROM users JOIN users_details ON id=users_id";
+
+        if (user.getId() == 0 && user.getLogin() == null && user.getEmail() == null && user.getRole() == null &&
+                user.getStatus() == null && user.getName() == null && user.getSurname() != null &&
+                user.getAddress() != null && user.getPhone() != null) {
+        }
+        if (user.getId() != 0) {
+            sql = sql + " WHERE id = " + user.getId();
+        }
+        if (user.getLogin() != null) {
+            sql = sql + " WHERE login = '" + user.getLogin() + "'";
+            System.out.println(sql);
+        }
+        if (user.getEmail() != null) {
+            sql = sql + " WHERE email = '" + user.getEmail() + "'";
+        }
+        if (user.getRole() != null) {
+            sql = sql + " WHERE role = '" + user.getRole() + "'";
+        }
+        if (user.getStatus() != null) {
+            sql = sql + " WHERE status = '" + user.getStatus() + "'";
+        }
+        if (user.getName() != null && user.getSurname() == null){
+            sql = sql + " WHERE name = '" + user.getName() + "'";
+        }
+        if (user.getName() == null && user.getSurname() != null){
+            sql = sql + " WHERE surname = '" + user.getSurname() + "'";
+        }
+        if (user.getName() != null && user.getSurname() != null){
+            sql = sql + " WHERE name = '" + user.getName() + "' AND surname = '" + user.getSurname() +"'" ;
+        }
+        if (user.getAddress() != null){
+            sql = sql + " WHERE address = '" + user.getAddress() + "'";
+        }
+        if (user.getPhone() != null){
+            sql = sql + " WHERE address = '" + user.getAddress() + "'";
+        }
+        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(User.class));
+    }
 }
 
-
-//    @Override
-//    public List<User> findUser(String name, String surname, String status) {
-//        if (name != null) {
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_NAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//        if (surname != null) {
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_SURNAME_QUERY , new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-////        if (name != null && surname != null) {
-////            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-////            return users;
-////        }
-//        if (status != null) {
-//            System.out.println(3);
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_STATUS_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//        if (name == null && surname == null && status == null){
-//            List<User> users = jdbcTemplate.query(GET_ALL_USERS_BY_FULNAME_QUERY, new BeanPropertyRowMapper<>(User.class));
-//            return users;
-//        }
-//
-//            return null;
-//    }
