@@ -36,18 +36,22 @@ public class UserController {
 //            return null;
 //    }
 
-    @GetMapping("/find")
-    public List<UserDTO> findUsers(@RequestBody UserDetailsForGetDTO userForGetDTO){
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable long id){
+        return userService.getUserById(id);
+    }
+
+    @GetMapping
+    public List<UserDTO> findUsers(@RequestBody UserForGetDTO userForGetDTO){
         return userService.findUsers(userForGetDTO);
     }
 
 
+    @GetMapping("/all")
+    public List<UserAllInfoDTO> findUsersAllInfo(@RequestBody UserForGetDTO userForGetDTO){
+        return userService.findUsersAllInfo(userForGetDTO);
+    }
 
-
-//    @GetMapping("/id/{id}")
-//public UserDTO getUserById(@PathVariable long id){
-//    return userService.getUserById(id);
-//}
 //
 //    @GetMapping("/detail/{Id}")
 //    public UserDetailDTO getUserDetailById(@PathVariable long users_id) {

@@ -11,7 +11,7 @@ public class UserValidator {
     private final static String PASSWORD_REGEX = "^[\\w]{8,16}$";
     private final static String PHONE_REGEX = "^(\\+375|80)(17|29|33|44)(\\d){7}$";
     private final static String NAME_REGEX = "^[a-zA-Z]{2,30}$";
-    private final static String ADDRESS_REGEX = "^[\\w]{5,50}$";
+    private final static String ADDRESS_REGEX = "^[\\.]{5,50}$";
 
     public static boolean validatorUserRegistrationDTO(UserRegistrationDTO user) {
         if (validateLogin(user.getLogin()) && validatePassword(user.getPassword()) && validateEmail(user.getEmail())){

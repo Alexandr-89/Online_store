@@ -12,13 +12,14 @@ public interface UserService {
 //    List<UserDTO>getUserByFullname(String name, String surname);
     void addUser(UserRegistrationDTO userRegistrationDTO);
     UserDTO getUserById(long id);
-    UserDetailDTO getUserDetailById(long users_id);
+//    UserDetailDTO getUserDetailById(long users_id);
 //    UserAllDetailsDTO getUserAllDetailsById(long id);
 //    UserDTO getUserByLogin(String login);
 //    UserDTO getUserByEmail(String email);
     void deleteUser(long id);
     void userUpdate(long id, UserUpdateDTO userUpdateDTO);
-    void userDetailUpdate(long userId, UserDetailUpdateDTO userDetailUpdateDTO);
-    List<UserDTO> findUsers(UserDetailsForGetDTO userForGetDTO);
+    void userDetailUpdate(long id, UserDetailUpdateDTO userDetailUpdateDTO);
+    List<UserDTO> findUsers(UserForGetDTO userForGetDTO);
+    List<UserAllInfoDTO> findUsersAllInfo(UserForGetDTO userForGetDTO);
 
 }

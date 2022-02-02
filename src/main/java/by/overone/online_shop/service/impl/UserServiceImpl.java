@@ -7,7 +7,6 @@ import by.overone.online_shop.exception.ExceptionCode;
 import by.overone.online_shop.model.Role;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
-import by.overone.online_shop.model.UserDetail;
 import by.overone.online_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long id) {
         UserDTO userDTOs = new UserDTO();
-        User user =userDAO.getUserById(id)
+        UserAllDetailsDTO user =userDAO.getUserAllInfoById(id)
                 .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
 //        userDTOs.setId(user.getId());
         userDTOs.setLogin(user.getLogin());
@@ -87,17 +86,17 @@ public class UserServiceImpl implements UserService {
         return userDTOs;
     }
 
-    @Override
-    public UserDetailDTO getUserDetailById(long users_id) {
-        UserDetailDTO userDetailDTO = new UserDetailDTO();
-        UserDetail userDetail = userDAO.getUserDetailByUserId(users_id)
-                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-        userDetailDTO.setName(userDetail.getName());
-        userDetailDTO.setSurname(userDetail.getSurname());
-        userDetailDTO.setAddress(userDetail.getAddress());
-        userDetailDTO.setPhone(userDetail.getPhone());
-        return userDetailDTO;
-    }
+//    @Override
+//    public UserDetailDTO getUserDetailById(long id) {
+//        UserDetailDTO userDetailDTO = new UserDetailDTO();
+//        UserAllDetailsDTO user =userDAO.getUserAllInfoById(id)
+//                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+//        userDetailDTO.setName(user.getName());
+//        userDetailDTO.setSurname(user.getSurname());
+//        userDetailDTO.setAddress(user.getAddress());
+//        userDetailDTO.setPhone(user.getPhone());
+//        return userDetailDTO;
+//    }
 
 //    @Override
 //    public UserAllDetailsDTO getUserAllDetailsById(long id) {
@@ -136,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userUpdate(long id, UserUpdateDTO userUpdateDTO) {
-        User user = userDAO.getUserById(id).orElseThrow(()->
+        UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userUpdateDTO.getLogin()!=null){
             user.setLogin(userUpdateDTO.getLogin());
@@ -152,36 +151,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void userDetailUpdate(long userId, UserDetailUpdateDTO userDetailUpdateDTO) {
-        UserDetail userDetail = userDAO.getUserDetailByUserId(userId).orElseThrow(()->
+    public void userDetailUpdate(long id, UserDetailUpdateDTO userDetailUpdateDTO) {
+        UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userDetailUpdateDTO.getName()!=null){
             userDetailUpdateDTO.setName(userDetailUpdateDTO.getName());
         }else {
-            userDetailUpdateDTO.setName(userDetail.getName());
+            userDetailUpdateDTO.setName(user.getName());
         }
         if (userDetailUpdateDTO.getSurname()!=null){
             userDetailUpdateDTO.setSurname(userDetailUpdateDTO.getSurname());
         }else {
-            userDetailUpdateDTO.setSurname(userDetail.getSurname());
+            userDetailUpdateDTO.setSurname(user.getSurname());
         }
         if (userDetailUpdateDTO.getAddress()!=null){
             userDetailUpdateDTO.setAddress(userDetailUpdateDTO.getAddress());
         }else {
-            userDetailUpdateDTO.setAddress(userDetail.getAddress());
+            userDetailUpdateDTO.setAddress(user.getAddress());
         }
         if (userDetailUpdateDTO.getPhone()!=null){
             userDetailUpdateDTO.setPhone(userDetailUpdateDTO.getPhone());
         }else {
-            userDetailUpdateDTO.setPhone(userDetail.getPhone());
+            userDetailUpdateDTO.setPhone(user.getPhone());
         }
-        userDAO.updateUserDetails(userId, userDetailUpdateDTO);
+        userDAO.updateUserDetails(id, userDetailUpdateDTO);
     }
 
     @Override
-    public List<UserDTO> findUsers(UserDetailsForGetDTO userForGetDTO) {
+    public List<UserDTO> findUsers(UserForGetDTO userForGetDTO) {
         List<UserDTO> userDTOs = userDAO.findUsers(userForGetDTO)
-                .stream().map(user -> new UserDTO( user.getLogin(), user.getEmail()))
+                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
                 .collect(Collectors.toList());
         if (userDTOs.size()!=0){
             return userDTOs;
@@ -190,30 +189,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<UserAllInfoDTO> findUsersAllInfo(UserForGetDTO userForGetDTO) {
+        List<UserAllInfoDTO> userAllInfoDTOS = userDAO.findUsers(userForGetDTO)
+                .stream().map(user -> new UserAllInfoDTO(user.getLogin(), user.getEmail(), user.getName(),
+                        user.getSurname(), user.getAddress(), user.getPhone()))
+                .collect(Collectors.toList());
+        if (userAllInfoDTOS.size() != 0) {
+            return userAllInfoDTOS;
+        } else {
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
+    }
 
 }
 
-//    @Override
-//    public void userUpdate(long id, UserUpdateDTO userUpdateDTO) {
-//        User user = userDAO.getUserById(id).orElseThrow(()->
-//                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        if (userUpdateDTO.getLogin()!=null){
-//            user.setLogin(userUpdateDTO.getLogin());
-//        }else {
-//            userUpdateDTO.setLogin(user.getLogin());
-//        }
-//        if (userUpdateDTO.getPassword()!=null){
-//            userUpdateDTO.setPassword(userUpdateDTO.getPassword());
-//        }else {
-//            userUpdateDTO.setPassword(user.getPassword());
-//        }
-//        if (userUpdateDTO.getEmail()!=null){
-//            userUpdateDTO.setEmail(userUpdateDTO.getEmail());
-//        }else {
-//            userUpdateDTO.setEmail(user.getEmail());
-//        }
-//        userUpdateDTO.setRole(Role.CUSTOMER);
-//        userUpdateDTO.setStatus(Status.ACTIVE);
-//
-//        userDAO.updateUser(id, userUpdateDTO);
-//    }

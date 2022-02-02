@@ -5,7 +5,6 @@ import by.overone.online_shop.dto.*;
 import by.overone.online_shop.model.Role;
 import by.overone.online_shop.model.Status;
 import by.overone.online_shop.model.User;
-import by.overone.online_shop.model.UserDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -33,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
 //    private final static String GET_ALL_USERS_BY_FULNAME_QUERY = "SELECT id, login, email, role," +
 //            " status FROM users JOIN users_details ON id=users_id WHERE name=? AND surname=?";
     private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
-    private final static String GET_USER_DETAIL_BY_ID_QUERY = "SELECT * FROM users_details WHERE users_id=?";
+//    private final static String GET_USER_DETAIL_BY_ID_QUERY = "SELECT * FROM users_details WHERE users_id=?";
 //    private final static String GET_USER_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login=?";
 //    private final static String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?";
     private final static String ADD_USER_QUERY = "INSERT INTO users (login, password, email, role, status)" +
@@ -79,18 +78,18 @@ public class UserDAOImpl implements UserDAO {
 //    }
 
     @Override
-    public Optional<User> getUserById(long id) {
+    public Optional<UserAllDetailsDTO> getUserAllInfoById(long id) {
         return jdbcTemplate.query(GET_USER_BY_ID_QUERY,
                 new Object[]{id},
-                new BeanPropertyRowMapper<>(User.class)).stream().findAny();
+                new BeanPropertyRowMapper<>(UserAllDetailsDTO.class)).stream().findAny();
     }
 
-    @Override
-    public Optional<UserDetail> getUserDetailByUserId(long users_id) {
-        return jdbcTemplate.query(GET_USER_DETAIL_BY_ID_QUERY,
-                new Object[]{users_id},
-                new BeanPropertyRowMapper<>(UserDetail.class)).stream().findAny();
-    }
+//    @Override
+//    public Optional<UserDetail> getUserDetailByUserId(long users_id) {
+//        return jdbcTemplate.query(GET_USER_DETAIL_BY_ID_QUERY,
+//                new Object[]{users_id},
+//                new BeanPropertyRowMapper<>(UserDetail.class)).stream().findAny();
+//    }
 
 
 //    @Override
@@ -136,10 +135,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(long id, User user) {
+    public void updateUser(long id, UserAllDetailsDTO user) {
         System.out.println(user.toString());
         jdbcTemplate.update(UPDATE_USER_QUERY, user.getLogin(), user.getPassword(),
-                user.getEmail(), user.getRole().toString(), user.getStatus().toString(), id);
+                user.getEmail(), user.getRole(), user.getStatus(), id);
     }
 
     @Override
@@ -150,16 +149,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findUsers(UserDetailsForGetDTO user) {
+    public List<UserAllInfoDTO> findUsers(UserForGetDTO user) {
 
         String sql = "SELECT * FROM users JOIN users_details ON id=users_id";
 
-        if (user.getId() == 0 && user.getLogin() == null && user.getEmail() == null && user.getRole() == null &&
+        if (user.getLogin() == null && user.getEmail() == null && user.getRole() == null &&
                 user.getStatus() == null && user.getName() == null && user.getSurname() != null &&
                 user.getAddress() != null && user.getPhone() != null) {
-        }
-        if (user.getId() != 0) {
-            sql = sql + " WHERE id = " + user.getId();
         }
         if (user.getLogin() != null) {
             sql = sql + " WHERE login = '" + user.getLogin() + "'";
@@ -189,7 +185,9 @@ public class UserDAOImpl implements UserDAO {
         if (user.getPhone() != null){
             sql = sql + " WHERE address = '" + user.getAddress() + "'";
         }
-        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(UserAllInfoDTO.class));
     }
+
+
 }
 

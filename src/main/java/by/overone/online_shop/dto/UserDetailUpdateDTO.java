@@ -13,17 +13,14 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserDetailUpdateDTO {
 
-    @NotEmpty
+
     @Pattern(regexp = "^[\\w]{2,30}$")
     private String name;
-    @NotEmpty
     @Pattern(regexp = "^[\\w]{2,30}$")
     private String surname;
-    @NotEmpty
     @Pattern(regexp = "^[\\w]{5,50}$")
     private String address;
-    @NotEmpty
-    @Pattern(regexp = "^ +375 ((17 | 29 | 33 | 44)) [0-9] {3} - [0-9] {2} - [0-9] {2} $")
+    @Pattern(regexp = "^[.]{5,50}$")
     private String phone;
 
 }
