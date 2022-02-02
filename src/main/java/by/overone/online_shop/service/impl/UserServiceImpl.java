@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,51 +24,12 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
 
-
-
-//    @Override
-//    public List<UserDTO> getAllUsers() {
-//        List<User> users = userDAO.getAllUsers();
-//        if (users.isEmpty()){
-//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//        }
-//        List<UserDTO> userDTOs = userDAO.getAllUsers()
-//                .stream().map(user -> new UserDTO( user.getLogin(), user.getEmail()))
-//                .collect(Collectors.toList());
-//        return userDTOs;
-//    }
-
-//    @Override
-//    public List<UserDTO> getAllUsersByStatus(String status) {
-//        List<User> users = userDAO.getAllUserByStatus(status);
-//        if (users.isEmpty()){
-//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//        }
-//        List<UserDTO> userDTOs = userDAO.getAllUserByStatus(status)
-//                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-//                .collect(Collectors.toList());
-//        return userDTOs;
-//    }
-
-//    @Override
-//    public List<UserDTO> getUserByFullname(String name, String surname) {
-//        List<User> users = userDAO.getUserByFullname(name, surname);
-//        if (users.isEmpty()){
-//            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//        }
-//        List<UserDTO> userDTOs = userDAO.getUserByFullname(name, surname)
-//                .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-//                .collect(Collectors.toList());
-//        return userDTOs;
-//    }
-
     @Override
-    public void addUser(UserRegistrationDTO userRegistretionDTO) {
-//        UserValidator.validatorUserRegistrationDTO(userRegistretionDTO);
+    public void addUser(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
-        user.setLogin(userRegistretionDTO.getLogin());
-        user.setPassword(userRegistretionDTO.getPassword());
-        user.setEmail(userRegistretionDTO.getEmail());
+        user.setLogin(userRegistrationDTO.getLogin());
+        user.setPassword(userRegistrationDTO.getPassword());
+        user.setEmail(userRegistrationDTO.getEmail());
         user.setRole(Role.CUSTOMER);
         user.setStatus(Status.ACTIVE);
         userDAO.addUser(user);
@@ -75,57 +37,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(long id) {
-        UserDTO userDTOs = new UserDTO();
-        UserAllDetailsDTO user =userDAO.getUserAllInfoById(id)
-                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        userDTOs.setId(user.getId());
-        userDTOs.setLogin(user.getLogin());
-        userDTOs.setEmail(user.getEmail());
-//        userDTOs.setRole(user.getRole());
-//        userDTOs.setStatus(user.getStatus());
-        return userDTOs;
+        System.out.println(id);
+        if (id>=1){
+            UserDTO userDTOs = new UserDTO();
+            UserAllDetailsDTO user = userDAO.getUserAllInfoById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+            userDTOs.setLogin(user.getLogin());
+            userDTOs.setEmail(user.getEmail());
+            return userDTOs;
+        }else {
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
+
     }
 
-//    @Override
-//    public UserDetailDTO getUserDetailById(long id) {
-//        UserDetailDTO userDetailDTO = new UserDetailDTO();
-//        UserAllDetailsDTO user =userDAO.getUserAllInfoById(id)
-//                .orElseThrow(()-> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        userDetailDTO.setName(user.getName());
-//        userDetailDTO.setSurname(user.getSurname());
-//        userDetailDTO.setAddress(user.getAddress());
-//        userDetailDTO.setPhone(user.getPhone());
-//        return userDetailDTO;
-//    }
-
-//    @Override
-//    public UserAllDetailsDTO getUserAllDetailsById(long id) {
-//        return userDAO.getUserAllDetailsById(id);
-//    }
-//
-//    @Override
-//    public UserDTO getUserByLogin(String login) {
-//        UserDTO userDTOs = new UserDTO();
-//        User user =userDAO.getUserByLogin(login);
-////        userDTOs.setId(user.getId());
-//        userDTOs.setLogin(user.getLogin());
-//        userDTOs.setEmail(user.getEmail());
-////        userDTOs.setRole(user.getRole());
-////        userDTOs.setStatus(user.getStatus());
-//        return userDTOs;
-//    }
-
-//    @Override
-//    public UserDTO getUserByEmail(String email) {
-//        UserDTO userDTOs = new UserDTO();
-//        User user =userDAO.getUserByEmail(email);
-////        userDTOs.setId(user.getId());
-//        userDTOs.setLogin(user.getLogin());
-//        userDTOs.setEmail(user.getEmail());
-////        userDTOs.setRole(user.getRole());
-////        userDTOs.setStatus(user.getStatus());
-//        return userDTOs;
-//    }
 
     @Override
     public void deleteUser(long id) {

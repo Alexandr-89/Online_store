@@ -4,6 +4,7 @@ import by.overone.online_shop.controller.exception.ExceptionResponse;
 import by.overone.online_shop.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,13 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
 
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setException(ex.getClass().getSimpleName());
+        response.setMessage(messageSource.getMessage("7", null, request.getLocale()));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
@@ -94,7 +102,9 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers, HttpStatus status,
+                                                                  WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
         response.setException(ex.getClass().getSimpleName());
         response.setErrorCode("6");
