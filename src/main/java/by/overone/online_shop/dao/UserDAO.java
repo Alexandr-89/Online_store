@@ -21,6 +21,6 @@ public interface UserDAO {
     void deleteUser(long id);
     void updateUser(long id, UserAllDetailsDTO user);
     void updateUserDetails(long userId, UserDetailUpdateDTO userDetailUpdateDTO);
-    List<UserAllInfoDTO> findUsers(UserForGetDTO userForGetDTO);
+    List<UserAllDetailsDTO> findUsers(UserForGetDTO userForGetDTO);
 
 }

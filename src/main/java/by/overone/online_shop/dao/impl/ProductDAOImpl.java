@@ -4,6 +4,7 @@ import by.overone.online_shop.dao.ProductDAO;
 import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
 import by.overone.online_shop.dto.ProductUpdateForAddDTO;
+import by.overone.online_shop.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,10 +65,10 @@ public class ProductDAOImpl implements ProductDAO {
 //    }
 
     @Override
-    public Optional<ProductDTO> getProductById(long id) {
+    public Optional<Product> getProductById(long id) {
         return jdbcTemplate.query(GET_PRODUCT_BY_ID_QUERY,
                 new Object[]{id},
-                new BeanPropertyRowMapper<>(ProductDTO.class)).stream().findAny();
+                new BeanPropertyRowMapper<>(Product.class)).stream().findAny();
     }
 
 //    @Override
@@ -77,16 +78,16 @@ public class ProductDAOImpl implements ProductDAO {
 //                new BeanPropertyRowMapper<>(Product.class)).stream().findAny().orElse(new Product());
 //    }
 
-    @Override
-    public void addProduct(ProductDTO product) {
-        jdbcTemplate.update(ADD_PRODUCT_QUERY,
-                product.getName(),
-                product.getDescription(),
-                product.getPrice(),
-                product.getCount(),
-                product.getStatus());
-
-    }
+//    @Override
+//    public void addProduct(ProductDTO product) {
+//        jdbcTemplate.update(ADD_PRODUCT_QUERY,
+//                product.getName(),
+//                product.getDescription(),
+//                product.getPrice(),
+//                product.getCount(),
+////                product.getStatus());
+//
+//    }
 
     @Override
     public void updateProductCount(ProductUpdateForAddDTO product) {

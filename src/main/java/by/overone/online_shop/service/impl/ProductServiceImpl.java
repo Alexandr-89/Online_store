@@ -5,6 +5,7 @@ import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
 import by.overone.online_shop.exception.EntityNotFoundException;
 import by.overone.online_shop.exception.ExceptionCode;
+import by.overone.online_shop.model.Product;
 import by.overone.online_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(product);
         List<ProductDTO> productDTOS = productDAO.getProduct(product)
                 .stream().map(product1 -> new ProductDTO(product1.getName(), product1.getManufacturer(),
-                        product1.getDescription(), product1.getPrice(), product1.getCount(), product1.getStatus()))
+                        product1.getDescription(), product1.getPrice(), product1.getCount()))
                 .collect(Collectors.toList());
         if (productDTOS.size()!=0){
             System.out.println(productDTOS.toString());
@@ -60,10 +61,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(long id) {
-        ProductDTO product = new ProductDTO();
-
-        return product;
+        if (id >= 1) {
+            ProductDTO productDTOs = new ProductDTO();
+            Product product = productDAO.getProductById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_PRODUCT.getErrorCode()));
+            productDTOs.setName(product.getName());
+            productDTOs.setManufacturer(product.getManufacturer());
+            productDTOs.setDescription(product.getDescription());
+            productDTOs.setPrice(product.getPrice());
+            productDTOs.setCount(product.getCount());
+            return productDTOs;
+        } else {
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_PRODUCT.getErrorCode());
+        }
     }
+
 
 //     if (id>=1){
 //        UserDTO userDTOs = new UserDTO();

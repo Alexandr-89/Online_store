@@ -149,7 +149,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<UserAllInfoDTO> findUsers(UserForGetDTO user) {
+    public List<UserAllDetailsDTO> findUsers(UserForGetDTO user) {
 
         String sql = "SELECT * FROM users JOIN users_details ON id=users_id";
 
@@ -185,7 +185,7 @@ public class UserDAOImpl implements UserDAO {
         if (user.getPhone() != null){
             sql = sql + " WHERE address = '" + user.getAddress() + "'";
         }
-        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(UserAllInfoDTO.class));
+        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(UserAllDetailsDTO.class));
     }
 
 
