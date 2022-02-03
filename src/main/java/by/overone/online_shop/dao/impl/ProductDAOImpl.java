@@ -1,9 +1,9 @@
 package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.ProductDAO;
+import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
 import by.overone.online_shop.dto.ProductUpdateForAddDTO;
-import by.overone.online_shop.model.ProductDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

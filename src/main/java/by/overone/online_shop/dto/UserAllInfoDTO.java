@@ -3,6 +3,7 @@ package by.overone.online_shop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -11,8 +12,8 @@ public class UserAllInfoDTO {
 
     private String login;
     private String email;
-    private String role;
-    private String status;
+//    private String role;
+//    private String status;
     private String name;
     private String surname;
     private String address;

@@ -1,7 +1,7 @@
 package by.overone.online_shop.service;
 
+import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
-import by.overone.online_shop.model.ProductDTO;
 
 import java.util.List;
 

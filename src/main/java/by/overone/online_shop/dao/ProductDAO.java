@@ -1,8 +1,8 @@
 package by.overone.online_shop.dao;
 
+import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
 import by.overone.online_shop.dto.ProductUpdateForAddDTO;
-import by.overone.online_shop.model.ProductDTO;
 
 import java.util.List;
 import java.util.Optional;

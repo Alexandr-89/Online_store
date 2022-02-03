@@ -1,7 +1,7 @@
 package by.overone.online_shop.controller;
 
+import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
-import by.overone.online_shop.model.ProductDTO;
 import by.overone.online_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

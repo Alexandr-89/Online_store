@@ -1,11 +1,10 @@
 package by.overone.online_shop.service.impl;
 
 import by.overone.online_shop.dao.ProductDAO;
+import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
-import by.overone.online_shop.dto.UserAllDetailsDTO;
 import by.overone.online_shop.exception.EntityNotFoundException;
 import by.overone.online_shop.exception.ExceptionCode;
-import by.overone.online_shop.model.ProductDTO;
 import by.overone.online_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +37,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProduct(ProductForGetDTO product) {
         System.out.println(product);
-        List<by.overone.online_shop.dto.ProductDTO> productDTOS = productDAO.getProduct(product)
-                .stream().map(product1 -> new ProductDTO(product1.getName(), product1.,
+        List<ProductDTO> productDTOS = productDAO.getProduct(product)
+                .stream().map(product1 -> new ProductDTO(product1.getName(), product1.getManufacturer(),
                         product1.getDescription(), product1.getPrice(), product1.getCount(), product1.getStatus()))
                 .collect(Collectors.toList());
         if (productDTOS.size()!=0){
@@ -61,9 +60,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(long id) {
-        ProductDTO productDTO = new ProductDTO();
+        ProductDTO product = new ProductDTO();
 
-        System.out.println(product);
         return product;
     }
 
