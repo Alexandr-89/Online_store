@@ -55,16 +55,6 @@ public class CartProductServiceImpl implements CartProductService {
     }
 
 
-
-//    List<UserDTO> userDTOs = userDAO.findUsers(userForGetDTO)
-//            .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-//            .collect(Collectors.toList());
-//        if (userDTOs.size()!=0){
-//        return userDTOs;
-//    }else{
-//        throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//    }
-
     @Override
     public List<CartProduct> getCartProductByUsersId(long users_id) {
         List<CartProduct> cartProducts = cartProductDAO.getCartProductByUserId(users_id).stream()
