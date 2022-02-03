@@ -1,6 +1,10 @@
 package by.overone.online_shop.service.impl;
 
 import by.overone.online_shop.dao.CartProductDAO;
+import by.overone.online_shop.dto.CartProductDTO;
+import by.overone.online_shop.dto.UserDTO;
+import by.overone.online_shop.exception.EntityNotFoundException;
+import by.overone.online_shop.exception.ExceptionCode;
 import by.overone.online_shop.model.CartProduct;
 import by.overone.online_shop.service.CartProductService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +38,32 @@ public class CartProductServiceImpl implements CartProductService {
             cartProductDAO.addCartProduct(cartProduct1);
         }
     }
+
+    @Override
+    public List<CartProductDTO> getCartProduct(long users_id, long product_id) {
+        System.out.println(cartProductDAO.getCartProduct(users_id, product_id).toString());
+        List<CartProductDTO> cartProductDTOS = cartProductDAO.getCartProduct(users_id, product_id)
+                .stream().map(cartProduct -> new CartProductDTO(cartProduct.getUsers_id(), cartProduct.getProducts_id(),
+                        cartProduct.getCart_products_count(), cartProduct.getName(), cartProduct.getManufacturer(),
+                        cartProduct.getPrice())).collect(Collectors.toList());
+        if (cartProductDTOS.size()!=0){
+            System.out.println(cartProductDTOS);
+            return cartProductDTOS;
+        }else {
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+        }
+    }
+
+
+
+//    List<UserDTO> userDTOs = userDAO.findUsers(userForGetDTO)
+//            .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
+//            .collect(Collectors.toList());
+//        if (userDTOs.size()!=0){
+//        return userDTOs;
+//    }else{
+//        throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
+//    }
 
     @Override
     public List<CartProduct> getCartProductByUsersId(long users_id) {
