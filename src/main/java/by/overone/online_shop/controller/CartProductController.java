@@ -21,6 +21,7 @@ public class CartProductController {
 
     @GetMapping("/byUsersId")
     public List<CartProduct> getCartProductByUsersId(@RequestParam long users_id){
+        System.out.println(users_id);
         return cartProductServise.getCartProductByUsersId(users_id);
     }
 

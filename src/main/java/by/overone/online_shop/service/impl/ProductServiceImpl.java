@@ -22,22 +22,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDAO productDAO;
 
-//    @Override
-//    public List<Product> getAllProducts() {
-//        List<Product> products = productDAO.getAllProduct().stream()
-//                .map(product -> new Product(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getCount(), product.getStatus()))
-//                .collect(Collectors.toList());
-//        return products;
-//    }
-
-//    @Override
-//    public List<Product> getAllProductsByStatus(String status) {
-//        List<Product> products = productDAO.getAllProductByStatus(status).stream()
-//                .map(product -> new Product(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getCount(), product.getStatus()))
-//                .collect(Collectors.toList());
-//        return products;
-//    }
-
     @Override
     public List<ProductDTO> getProduct(ProductForGetDTO product) {
         System.out.println(product);
@@ -53,14 +37,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-//    List<UserDTO> userDTOs = userDAO.findUsers(userForGetDTO)
-//            .stream().map(user -> new UserDTO(user.getLogin(), user.getEmail()))
-//            .collect(Collectors.toList());
-//        if (userDTOs.size()!=0){
-//        return userDTOs;
-//    }else{
-//        throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//    }
 
     @Override
     public ProductDTO getProductById(long id) {
@@ -79,22 +55,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
-//     if (id>=1){
-//        UserDTO userDTOs = new UserDTO();
-//        UserAllDetailsDTO user = userDAO.getUserAllInfoById(id)
-//                .orElseThrow(() -> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
-//        userDTOs.setLogin(user.getLogin());
-//        userDTOs.setEmail(user.getEmail());
-//        return userDTOs;
-//    }else {
-//        throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-//    }
-
-//    @Override
-//    public Product getProduct(String name, String description, double price) {
-//         return productDAO.getProduct(name, description, price);
-//    }
 
     @Override
     public void addProduct(ProductForAddDTO productForAddDTO) {
