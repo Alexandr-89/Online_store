@@ -1,6 +1,7 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dto.ProductDTO;
+import by.overone.online_shop.dto.ProductForAddDTO;
 import by.overone.online_shop.dto.ProductForGetDTO;
 import by.overone.online_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,9 @@ public class ProductController {
 //    }
 //
 //
-//    @PostMapping("/add")
-//    public void addProduct(@RequestBody ProductForAddDTO productDTO){
-//        productService.addProduct(productDTO);
-//    }
+    @PostMapping("/add")
+    public void addProduct(@RequestBody ProductForAddDTO productDTO){
+        productService.addProduct(productDTO);
+    }
 
 }

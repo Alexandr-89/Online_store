@@ -22,33 +22,39 @@ public class ProductDAOImpl implements ProductDAO {
 //    private final static String GET_ALL_PRODUCTS_QUERY = "SELECT * FROM products";
 //    private final static String GET_ALL_PRODUCTS_BY_STATUS_QUERY = "SELECT * FROM products WHERE status=?";
     private final static String GET_PRODUCT_BY_ID_QUERY = "SELECT * FROM products WHERE id=?";
-    private final static String ADD_PRODUCT_QUERY = "INSERT INTO products VALUES(0,?,?,?,?,?)";
+    private final static String ADD_PRODUCT_QUERY = "INSERT INTO products VALUES(0,?,?,?,?,?,?)";
     private final static String UPDATE_PRODUCT_BY_COUNT_QUERY = "UPDATE products SET count=?," +
             " status=? WHERE id=?";
 //    private final static String GET_PRODUCT = "SELECT * FROM products WHERE name=? AND description=? AND price=?";
 
     @Override
-    public List<ProductDTO> getProduct(ProductForGetDTO product) {
+    public List<Product> getProduct(ProductForGetDTO product) {
         String sql = "SELECT * FROM products";
 
         if (product.getName() == null && product.getManufacturer() == null
                 && product.getPrice() == 0 && product.getStatus() == null) {
         }
-        if (product.getName() != null && product.getManufacturer() == null) {
+        if (product.getName() != null && product.getManufacturer() == null && product.getPrice() == 0) {
             sql = sql + " WHERE name = '" + product.getName() + "'";
             System.out.println(sql);
         }
-        if (product.getName() == null && product.getManufacturer() != null) {
+        if (product.getName() == null && product.getManufacturer() != null && product.getPrice() == 0) {
             sql = sql + " WHERE manufacturer = '" + product.getManufacturer() + "'";
-            System.out.println(sql);
+            System.out.println(sql + "r");
         }
-        if (product.getName() != null && product.getManufacturer() != null) {
+        if (product.getName() != null && product.getManufacturer() != null && product.getPrice() != 0) {
+            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '"
+                    + product.getManufacturer() +"' AND price = " + product.getPrice();
+            System.out.println(sql + " q");
+        }
+        if (product.getName() != null && product.getManufacturer() != null && product.getPrice() == 0) {
             sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '" + product.getManufacturer() +"'";
+            System.out.println(sql + " w");
         }
         if (product.getStatus() != null) {
             sql = sql + " WHERE status = '" + product.getStatus() + "'";
         }
-        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(ProductDTO.class));
+        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(Product.class));
     }
 
 //    @Override
@@ -78,19 +84,21 @@ public class ProductDAOImpl implements ProductDAO {
 //                new BeanPropertyRowMapper<>(Product.class)).stream().findAny().orElse(new Product());
 //    }
 
-//    @Override
-//    public void addProduct(ProductDTO product) {
-//        jdbcTemplate.update(ADD_PRODUCT_QUERY,
-//                product.getName(),
-//                product.getDescription(),
-//                product.getPrice(),
-//                product.getCount(),
-////                product.getStatus());
-//
-//    }
+    @Override
+    public void addProduct(Product product) {
+        jdbcTemplate.update(ADD_PRODUCT_QUERY,
+                product.getName(),
+                product.getManufacturer(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getCount(),
+                product.getStatus());
+
+    }
 
     @Override
     public void updateProductCount(ProductUpdateForAddDTO product) {
+        System.out.println(product);
         jdbcTemplate.update(UPDATE_PRODUCT_BY_COUNT_QUERY, product.getCount(), product.getStatus(), product.getId());
     }
 }

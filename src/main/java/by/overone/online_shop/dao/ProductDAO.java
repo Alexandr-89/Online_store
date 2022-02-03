@@ -10,12 +10,12 @@ import java.util.Optional;
 
 public interface ProductDAO {
 
-    List<ProductDTO> getProduct(ProductForGetDTO product);
+    List<Product> getProduct(ProductForGetDTO product);
 //    List<Product> getAllProduct();
 //    List<Product> getAllProductByStatus(String status);
     Optional<Product> getProductById(long id);
 //    Product getProduct(String name, String description, double price);
-//    void addProduct(ProductDTO product);
+    void addProduct(Product product);
     void updateProductCount(ProductUpdateForAddDTO productUpdateForAddDTO);
 
 }
