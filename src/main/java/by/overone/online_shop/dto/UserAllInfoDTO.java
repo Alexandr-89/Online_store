@@ -11,8 +11,8 @@ public class UserAllInfoDTO {
 
     private String login;
     private String email;
-//    private String role;
-//    private String status;
+    private String role;
+    private String status;
     private String name;
     private String surname;
     private String address;

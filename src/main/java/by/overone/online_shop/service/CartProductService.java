@@ -1,6 +1,5 @@
 package by.overone.online_shop.service;
 
-import by.overone.online_shop.dto.ProductDTO;
 import by.overone.online_shop.model.CartProduct;
 
 import java.util.List;

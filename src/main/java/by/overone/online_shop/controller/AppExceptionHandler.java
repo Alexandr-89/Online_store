@@ -29,6 +29,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
 
+
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
@@ -112,4 +113,5 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("BAD_REQUEST", ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
 }

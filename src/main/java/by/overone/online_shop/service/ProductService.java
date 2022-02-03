@@ -1,16 +1,16 @@
 package by.overone.online_shop.service;
 
-import by.overone.online_shop.dto.ProductDTO;
-import by.overone.online_shop.dto.UserDTO;
-import by.overone.online_shop.model.Product;
+import by.overone.online_shop.dto.ProductForGetDTO;
+import by.overone.online_shop.model.ProductDTO;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<Product> getAllProducts();
-    List<Product> getAllProductsByStatus(String status);
-    Product getProductById(long id);
-    Product getProduct(String name, String description, double price);
-    void addProduct(ProductDTO productDTO);
+    List<ProductDTO> getProduct(ProductForGetDTO product);
+//    List<Product> getAllProducts();
+//    List<Product> getAllProductsByStatus(String status);
+    ProductDTO getProductById(long id);
+//    Product getProduct(String name, String description, double price);
+//    void addProduct(ProductForAddDTO productDTO);
 }

@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class ProductForGetDTO {
 
     private String name;
     private String manufacturer;
-    private String description;
     private double price;
-    private long count;
     private String status;
 }

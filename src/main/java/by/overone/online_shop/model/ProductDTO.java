@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductDTO {
 
     private long id;
     private String name;
@@ -16,4 +16,5 @@ public class Product {
     private double price;
     private long count;
     private String status;
+
 }

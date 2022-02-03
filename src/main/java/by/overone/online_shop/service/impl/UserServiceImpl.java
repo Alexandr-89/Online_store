@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(long id) {
-        System.out.println(id);
         if (id>=1){
             UserDTO userDTOs = new UserDTO();
             UserAllDetailsDTO user = userDAO.getUserAllInfoById(id)
@@ -71,7 +69,6 @@ public class UserServiceImpl implements UserService {
         if (userUpdateDTO.getEmail()!=null){
             user.setEmail(userUpdateDTO.getEmail());
         }
-
         userDAO.updateUser(id, user);
     }
 
