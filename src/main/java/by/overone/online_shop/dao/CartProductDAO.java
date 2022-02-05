@@ -8,7 +8,7 @@ import java.util.List;
 public interface CartProductDAO {
 
     void addCartProduct(CartProduct cartProduct);
-    List<CartProductAllInfoDTO> getCartProduct(long users_id, long products_id);
+    List<CartProductAllInfoDTO> getCartProduct(Long users_id, Long products_id);
     List<CartProduct> getCartProductByUserId(long users_id);
     CartProduct getCartProductByUserIdAndProductId(long user_id, long products_id);
     void deleteCartProductByUserId(long users_id);

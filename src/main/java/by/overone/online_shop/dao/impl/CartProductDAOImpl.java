@@ -33,17 +33,17 @@ public class CartProductDAOImpl implements CartProductDAO {
     }
 
     @Override
-    public List<CartProductAllInfoDTO> getCartProduct(long users_id, long products_id) {
+    public List<CartProductAllInfoDTO> getCartProduct(Long users_id, Long products_id) {
         String sql = "SELECT *  FROM carts_products JOIN products ON products_id=id";
-        if (users_id != 0 && products_id != 0){
+        if (users_id != null && products_id != null){
             sql = sql + " WHERE users_id = " + users_id + " AND products_id = " +products_id ;
             System.out.println(sql + "q");
         }
-        if (users_id != 0 && products_id == 0) {
+        if (users_id != null && products_id == null) {
             sql = sql + " WHERE users_id = " + users_id;
             System.out.println(sql + "w");
         }
-        if (users_id == 0 && products_id != 0) {
+        if (users_id == null && products_id != null) {
             sql = sql + " WHERE products_id = " + products_id;
             System.out.println(sql +"e");
         }

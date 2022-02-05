@@ -40,7 +40,7 @@ public class CartProductServiceImpl implements CartProductService {
     }
 
     @Override
-    public List<CartProductDTO> getCartProduct(long users_id, long product_id) {
+    public List<CartProductDTO> getCartProduct(Long users_id, Long product_id) {
         System.out.println(cartProductDAO.getCartProduct(users_id, product_id).toString());
         List<CartProductDTO> cartProductDTOS = cartProductDAO.getCartProduct(users_id, product_id)
                 .stream().map(cartProduct -> new CartProductDTO(cartProduct.getUsers_id(), cartProduct.getProducts_id(),
