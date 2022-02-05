@@ -11,7 +11,8 @@ public class CartProductDTO {
 
     private long users_id;
     private long products_id;
-    private long cart_product_count;
+    private long carts_products_count;
+    private double carts_products_sum;
     private String name;
     private String manufacturer;
     private long price;

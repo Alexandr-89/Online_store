@@ -1,6 +1,7 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dto.CartProductDTO;
+import by.overone.online_shop.dto.CartProductForAddDTO;
 import by.overone.online_shop.model.CartProduct;
 import by.overone.online_shop.service.CartProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class CartProductController {
     private final CartProductService cartProductService;
 
     @PostMapping("/add")
-    public void addCartProduct(@RequestBody CartProduct cartProduct){
-        cartProductService.addCartProduct(cartProduct);
+    public void addCartProduct(@RequestBody CartProductForAddDTO cartProductForAddDTO){
+        cartProductService.addCartProduct(cartProductForAddDTO);
     }
 
     @GetMapping("/")
@@ -28,11 +29,11 @@ public class CartProductController {
     }
 
 
-    @GetMapping("/byUsersId")
-    public List<CartProduct> getCartProductByUsersId(@RequestParam long users_id){
-        System.out.println(users_id);
-        return cartProductService.getCartProductByUsersId(users_id);
-    }
+//    @GetMapping("/byUsersId")
+//    public List<CartProduct> getCartProductByUsersId(@RequestParam long users_id){
+//        System.out.println(users_id);
+//        return cartProductService.getCartProductByUsersId(users_id);
+//    }
 
     @DeleteMapping("/deleteByUsersId")
     public void deleteCartProductByUserId(@RequestParam long users_id){

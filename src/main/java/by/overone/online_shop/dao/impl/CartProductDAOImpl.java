@@ -16,20 +16,21 @@ public class CartProductDAOImpl implements CartProductDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final static String ADD_CART_PRODUCT_QUERY = "INSERT INTO carts_products VALUES(?,?,?)";
+    private final static String ADD_CART_PRODUCT_QUERY = "INSERT INTO carts_products VALUES(?,?,?,?)";
     private final static String GET_CART_PRODUCT_BY_USER_ID_QUERY = "SELECT * FROM carts_products WHERE users_id=?";
     private final static String GET_CART_PRODUCT_BY_USER_ID_AND_PRODUCT_ID_QUERY = "SELECT * FROM carts_products WHERE users_id=? AND products_id=?";
     private final static String DELETE_CART_PRODUCT_BY_USER_ID_QUERY = "DELETE FROM carts_products WHERE users_id=?";
     private final static String DELETE_CART_PRODUCT_BY_PRODUCT_ID_QUERY = "DELETE FROM carts_products WHERE users_id=? AND products_id=?";
-    private final static String UPDATE_CART_PRODUCT_BY_COUNT_QUERY = "UPDATE carts_products SET count=?" +
-            " WHERE users_id=? AND products_id=?";
+    private final static String UPDATE_CART_PRODUCT_BY_COUNT_QUERY = "UPDATE carts_products SET carts_products_count=?," +
+            " carts_products_sum=? WHERE users_id=? AND products_id=?";
 
     @Override
     public void addCartProduct(CartProduct cartProduct) {
         jdbcTemplate.update(ADD_CART_PRODUCT_QUERY,
                 cartProduct.getUsers_id(),
                 cartProduct.getProducts_id(),
-                cartProduct.getCount());
+                cartProduct.getCarts_products_count(),
+                cartProduct.getCarts_products_sum());
     }
 
     @Override
@@ -79,6 +80,7 @@ public class CartProductDAOImpl implements CartProductDAO {
     @Override
     public void updateProductCount(CartProduct cartProduct) {
         System.out.println(4 + cartProduct.toString());
-        jdbcTemplate.update(UPDATE_CART_PRODUCT_BY_COUNT_QUERY, cartProduct.getCount(), cartProduct.getUsers_id(), cartProduct.getProducts_id());
+        jdbcTemplate.update(UPDATE_CART_PRODUCT_BY_COUNT_QUERY, cartProduct.getCarts_products_count(), cartProduct.getCarts_products_sum(),
+                cartProduct.getUsers_id(), cartProduct.getProducts_id());
     }
 }

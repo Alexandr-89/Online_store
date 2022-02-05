@@ -4,21 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartProductAllInfoDTO {
-
+public class CartProductForAddDTO {
+    @Min(1)
     private long users_id;
+    @Min(1)
     private long products_id;
+    @Min(1)
     private long carts_products_count;
-    private double carts_products_sum;
-    private long id;
-    private String name;
-    private String manufacturer;
-    private String description;
-    private long price;
-    private long count;
-    private String status;
-
 }

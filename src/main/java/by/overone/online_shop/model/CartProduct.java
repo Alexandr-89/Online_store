@@ -11,5 +11,6 @@ public class CartProduct {
 
     private long users_id;
     private long products_id;
-    private long count;
+    private long carts_products_count;
+    private double carts_products_sum;
 }
