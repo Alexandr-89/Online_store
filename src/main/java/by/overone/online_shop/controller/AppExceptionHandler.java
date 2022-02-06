@@ -15,6 +15,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -49,6 +50,14 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("NOT_ALLOWED", ex);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
+
+//    @ExceptionHandler(Exception.class)
+//    @RequestMapping(value = "/**")
+//    public ResponseEntity<ExceptionResponse> hfjfkfkfk(){
+//        ExceptionResponse response = new ExceptionResponse();
+//        response.setErrorCode("404");
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ExceptionResponse> entityNotFoundHandler(EntityNotFoundException e, WebRequest request) {

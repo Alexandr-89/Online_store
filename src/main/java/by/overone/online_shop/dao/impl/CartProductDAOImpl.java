@@ -18,9 +18,11 @@ public class CartProductDAOImpl implements CartProductDAO {
 
     private final static String ADD_CART_PRODUCT_QUERY = "INSERT INTO carts_products VALUES(?,?,?,?)";
     private final static String GET_CART_PRODUCT_BY_USER_ID_QUERY = "SELECT * FROM carts_products WHERE users_id=?";
-    private final static String GET_CART_PRODUCT_BY_USER_ID_AND_PRODUCT_ID_QUERY = "SELECT * FROM carts_products WHERE users_id=? AND products_id=?";
+    private final static String GET_CART_PRODUCT_BY_USER_ID_AND_PRODUCT_ID_QUERY = "SELECT * FROM carts_products" +
+            " WHERE users_id=? AND products_id=?";
     private final static String DELETE_CART_PRODUCT_BY_USER_ID_QUERY = "DELETE FROM carts_products WHERE users_id=?";
-    private final static String DELETE_CART_PRODUCT_BY_PRODUCT_ID_QUERY = "DELETE FROM carts_products WHERE users_id=? AND products_id=?";
+    private final static String DELETE_CART_PRODUCT_BY_PRODUCT_ID_QUERY = "DELETE FROM carts_products WHERE users_id=?" +
+            " AND products_id=?";
     private final static String UPDATE_CART_PRODUCT_BY_COUNT_QUERY = "UPDATE carts_products SET carts_products_count=?," +
             " carts_products_sum=? WHERE users_id=? AND products_id=?";
 
