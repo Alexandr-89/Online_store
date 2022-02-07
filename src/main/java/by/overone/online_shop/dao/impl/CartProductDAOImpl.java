@@ -79,6 +79,7 @@ public class CartProductDAOImpl implements CartProductDAO {
         jdbcTemplate.update(DELETE_CART_PRODUCT_BY_PRODUCT_ID_QUERY, users_id, products_id);
     }
 
+
     @Override
     public void updateProductCount(CartProduct cartProduct) {
         System.out.println(4 + cartProduct.toString());

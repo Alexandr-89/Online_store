@@ -19,10 +19,10 @@ public class UserRegistrationDTO {
     @Pattern(regexp = "^[\\w]{4,12}$")
     private String login;
     @NotEmpty
-    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
+    @Pattern(regexp = "^[\\w]{8,16}$")
     private String password;
     @NotEmpty
-    @Pattern(regexp = "^[\\w]{8,16}$")
+    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
     private String email;
 
 }

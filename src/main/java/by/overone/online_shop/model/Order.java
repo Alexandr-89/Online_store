@@ -17,5 +17,4 @@ public class Order {
     private long id;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime date;
-    private double total;
 }

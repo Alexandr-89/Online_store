@@ -116,6 +116,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public void addUser(User user) {
+        System.out.println(user.toString());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("login", user.getLogin())

@@ -21,7 +21,7 @@ public class CartProductController {
         cartProductService.addCartProduct(cartProductForAddDTO);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<CartProductDTO> getCartProduct(@RequestParam Long users_id, Long products_id ){
         System.out.println(users_id);
         System.out.println(products_id);
