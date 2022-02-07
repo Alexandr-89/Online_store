@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -36,11 +37,12 @@ public class OrderServiceImpl implements OrderService {
         orderAllInfoDTO.setOrders_id(orderInfoDTO.getOrders_id());
         orderAllInfoDTO.setDate(orderInfoDTO.getDate());
         orderAllInfoDTO.setOrderedProductsDTOS(orderDAO.get(orderAllInfoDTO.getOrders_id()));
+        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().collect(Collectors.summingDouble(OrderedProductsDTO::getSum)));
         return orderAllInfoDTO;
     }
 
-//    @Override
-//    public List<OrderedProductsDTO> get(Long id) {
-//        return orderDAO.get(id);
-//    }
+    @Override
+    public List<OrderedProductsDTO> get(Long id) {
+        return orderDAO.get(id);
+    }
 }
