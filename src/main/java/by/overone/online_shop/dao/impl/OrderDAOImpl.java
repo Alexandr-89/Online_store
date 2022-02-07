@@ -1,13 +1,14 @@
 package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.OrderDAO;
-import by.overone.online_shop.dto.CartProductAllInfoDTO;
 import by.overone.online_shop.dto.CartProductDTO;
+import by.overone.online_shop.dto.OrderInfoDTO;
 import by.overone.online_shop.dto.OrderedProductsDTO;
 import by.overone.online_shop.model.*;
 import by.overone.online_shop.service.impl.CartProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -31,6 +33,12 @@ public class OrderDAOImpl implements OrderDAO {
             " price, count, sum) VALUES (:products_id, :name, :manufacturer, :price, :count, :sum)";
     private final static String ADD_ORDERED_PRODUCTS_HAS_ORDERS = "INSERT INTO ordered_products_has_orders " +
             "(ordered_products_id, orders_id) VALUES(?, ?)";
+    private final static String GET_ORDER_BU_USER_ID = "SELECT users_id, orders_id, date FROM users join" +
+            " users_has_orders u on users_id=u.users_id join orders on u.orders_id=orders_id  where users_id = ?";
+    private final static String GET_ORDERED_PRODUCTS_BY_ORDER = "SELECT op.* FROM orders " +
+            "JOIN ordered_products_has_orders o ON orders_id=o.orders_id " +
+            "JOIN ordered_products op ON op.id=o.ordered_products_id " +
+            "WHERE orders_id=?";
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -63,5 +71,20 @@ public class OrderDAOImpl implements OrderDAO {
             cartProductService.deleteCartProductByUserId(id);
         }
     }
+
+    @Override
+    public Optional<OrderInfoDTO> getOrderedProducts(Long id) {
+        System.out.println(id);
+        return jdbcTemplate.query(GET_ORDER_BU_USER_ID, new Object[]{id},
+                new BeanPropertyRowMapper<>(OrderInfoDTO.class)).stream().findAny();
+    }
+
+    @Override
+    public List<OrderedProductsDTO> get(Long id) {
+        log.info("order_id " + id);
+        return jdbcTemplate.query(GET_ORDERED_PRODUCTS_BY_ORDER, new BeanPropertyRowMapper<>(OrderedProductsDTO.class), id);
+    }
+
+
 }
 
