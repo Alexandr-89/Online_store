@@ -37,7 +37,8 @@ public class OrderServiceImpl implements OrderService {
         orderAllInfoDTO.setOrders_id(orderInfoDTO.getOrders_id());
         orderAllInfoDTO.setDate(orderInfoDTO.getDate());
         orderAllInfoDTO.setOrderedProductsDTOS(orderDAO.get(orderAllInfoDTO.getOrders_id()));
-        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().collect(Collectors.summingDouble(OrderedProductsDTO::getSum)));
+//        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().collect(Collectors.summingDouble(OrderedProductsDTO::getSum)));
+        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().mapToDouble(OrderedProductsDTO::getSum).sum());
         return orderAllInfoDTO;
     }
 
