@@ -20,7 +20,7 @@ public class UserDetailUpdateDTO {
     private String surname;
     @Pattern(regexp = "^[\\w]{5,50}$")
     private String address;
-    @Pattern(regexp = "^[.]{5,50}$")
+    @Pattern(regexp = "^[+\\d]{5,50}$")
     private String phone;
 
 }

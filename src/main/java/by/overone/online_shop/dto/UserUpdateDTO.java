@@ -15,8 +15,8 @@ public class UserUpdateDTO {
 
     @Pattern(regexp = "^[\\w]{4,12}$")
     private String login;
-    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
-    private String password;
     @Pattern(regexp = "^[\\w]{8,16}$")
+    private String password;
+    @Pattern(regexp = "^[\\S]+@[\\w]+\\.[\\a-z]+$")
     private String email;
 }

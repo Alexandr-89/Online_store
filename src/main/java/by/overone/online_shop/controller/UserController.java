@@ -21,9 +21,8 @@ public class UserController {
     private final UserService userService;
 
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable("id") long id){
-        System.out.println(id);
         return userService.getUserById(id);
     }
 
@@ -40,7 +39,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@Validated @RequestBody UserRegistrationDTO userRegistretionDTO) {
         userService.addUser(userRegistretionDTO);

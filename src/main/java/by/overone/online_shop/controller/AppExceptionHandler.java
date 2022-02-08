@@ -35,7 +35,9 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
         response.setException(ex.getClass().getSimpleName());
+        response.setErrorCode("7");
         response.setMessage(messageSource.getMessage("7", null, request.getLocale()));
+        log.error("BAD_REQUEST", ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -78,15 +80,15 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(SQLException.class)
-//    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
-//        ExceptionResponse response = new ExceptionResponse();
-//        response.setException(e.getClass().getSimpleName());
-//        response.setErrorCode("3");
-//        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
-//        log.error("SQL exception", e);
-//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setException(e.getClass().getSimpleName());
+        response.setErrorCode("3");
+        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
+        log.error("SQL exception", e);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ExceptionResponse> entityAlreadyExistHandler(DuplicateKeyException e, WebRequest request) {
@@ -108,6 +110,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(error -> new ExceptionResponse(error.getField() + " " + error.getDefaultMessage(),
                         null, null)).collect(Collectors.toList());
+        log.error("BAD_REQUEST", ex);
         return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
     }
 
