@@ -19,13 +19,24 @@ public class ProductDAOImpl implements ProductDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-//    private final static String GET_ALL_PRODUCTS_QUERY = "SELECT * FROM products";
-//    private final static String GET_ALL_PRODUCTS_BY_STATUS_QUERY = "SELECT * FROM products WHERE status=?";
-    private final static String GET_PRODUCT_BY_ID_QUERY = "SELECT * FROM products WHERE id=?";
+
+    private final static String GET_PRODUCT_BY_ID_QUERY = "SELECT * FROM products WHERE id=? AND status = 'active'";
+
     private final static String ADD_PRODUCT_QUERY = "INSERT INTO products VALUES(0,?,?,?,?,?,?)";
+
     private final static String UPDATE_PRODUCT_BY_COUNT_QUERY = "UPDATE products SET count=?," +
             " status=? WHERE id=?";
-//    private final static String GET_PRODUCT = "SELECT * FROM products WHERE name=? AND description=? AND price=?";
+
+    private final static String DELETE_PRODUCT_QUERY = "UPDATE products SET status='INACTIVE' WHERE id=?";
+
+
+    @Override
+    public Optional<Product> getProductById(Long id) {
+        return jdbcTemplate.query(GET_PRODUCT_BY_ID_QUERY,
+                new BeanPropertyRowMapper<>(Product.class),
+                new Object[]{id}).stream().findAny();
+    }
+
 
     @Override
     public List<Product> getProduct(ProductForGetDTO product) {
@@ -33,56 +44,29 @@ public class ProductDAOImpl implements ProductDAO {
 
         if (product.getName() == null && product.getManufacturer() == null
                 && product.getPrice() == 0 && product.getStatus() == null) {
+            sql = sql + "  WHERE status = 'active'";
         }
         if (product.getName() != null && product.getManufacturer() == null && product.getPrice() == 0) {
-            sql = sql + " WHERE name = '" + product.getName() + "'";
-            System.out.println(sql);
+            sql = sql + " WHERE name = '" + product.getName() + "' AND status = 'active'";
         }
         if (product.getName() == null && product.getManufacturer() != null && product.getPrice() == 0) {
-            sql = sql + " WHERE manufacturer = '" + product.getManufacturer() + "'";
-            System.out.println(sql + "r");
+            sql = sql + " WHERE manufacturer = '" + product.getManufacturer() + "' AND status = 'active'";
         }
         if (product.getName() != null && product.getManufacturer() != null && product.getPrice() != 0) {
-            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '"
+            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = ' AND status = 'active'"
                     + product.getManufacturer() +"' AND price = " + product.getPrice();
-            System.out.println(sql + " q");
         }
         if (product.getName() != null && product.getManufacturer() != null && product.getPrice() == 0) {
-            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '" + product.getManufacturer() +"'";
-            System.out.println(sql + " w");
+            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '" + product.getManufacturer()
+                    +"' AND status = 'active'";
         }
         if (product.getStatus() != null) {
             sql = sql + " WHERE status = '" + product.getStatus() + "'";
         }
-        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(Product.class));
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class), new Object[]{});
     }
 
-//    @Override
-//    public List<Product> getAllProduct() {
-//        List<Product> products = jdbcTemplate.query(GET_ALL_PRODUCTS_QUERY, new BeanPropertyRowMapper<>(Product.class));
-//        return products;
-//    }
-//
-//    @Override
-//    public List<Product> getAllProductByStatus(String status) {
-//        return jdbcTemplate.query(GET_ALL_PRODUCTS_BY_STATUS_QUERY,
-//                new Object[]{status},
-//                new BeanPropertyRowMapper<>(Product.class));
-//    }
 
-    @Override
-    public Optional<Product> getProductById(long id) {
-        return jdbcTemplate.query(GET_PRODUCT_BY_ID_QUERY,
-                new Object[]{id},
-                new BeanPropertyRowMapper<>(Product.class)).stream().findAny();
-    }
-
-//    @Override
-//    public Product getProduct(String name, String description, double price) {
-//        return jdbcTemplate.query(GET_PRODUCT,
-//                new Object[]{name, description, price},
-//                new BeanPropertyRowMapper<>(Product.class)).stream().findAny().orElse(new Product());
-//    }
 
     @Override
     public void addProduct(Product product) {
@@ -100,5 +84,10 @@ public class ProductDAOImpl implements ProductDAO {
     public void updateProductCount(ProductUpdateForAddDTO product) {
         System.out.println(product);
         jdbcTemplate.update(UPDATE_PRODUCT_BY_COUNT_QUERY, product.getCount(), product.getStatus(), product.getId());
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        jdbcTemplate.update(DELETE_PRODUCT_QUERY,  id);
     }
 }

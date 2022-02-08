@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO getUserById(long id) {
+    public UserDTO getUserById(Long id) {
         if (id>=1){
             UserDTO userDTOs = new UserDTO();
             UserAllDetailsDTO user = userDAO.getUserAllInfoById(id)
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void userUpdate(long id, UserUpdateDTO userUpdateDTO) {
+    public void userUpdate(Long id, UserUpdateDTO userUpdateDTO) {
         UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userUpdateDTO.getLogin()!=null){
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void userDetailUpdate(long id, UserDetailUpdateDTO userDetailUpdateDTO) {
+    public void userDetailUpdate(Long id, UserDetailUpdateDTO userDetailUpdateDTO) {
         UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
         if (userDetailUpdateDTO.getName()!=null){
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(Long id) {
         UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
                 new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
             userDAO.deleteUser(id);

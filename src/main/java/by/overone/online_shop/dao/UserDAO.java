@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface UserDAO {
 
-    Optional<UserAllDetailsDTO> getUserAllInfoById(long id);
+    Optional<UserAllDetailsDTO> getUserAllInfoById(Long id);
     List<UserAllDetailsDTO> getUserAllInfo(UserForGetDTO userForGetDTO);
     void addUser(User user);
-    void updateUser(long id, UserAllDetailsDTO user);
-    void updateUserDetails(long userId, UserAllDetailsDTO user);
-    void deleteUser(long id);
+    void updateUser(Long id, UserAllDetailsDTO user);
+    void updateUserDetails(Long userId, UserAllDetailsDTO user);
+    void deleteUser(Long id);
 
 }

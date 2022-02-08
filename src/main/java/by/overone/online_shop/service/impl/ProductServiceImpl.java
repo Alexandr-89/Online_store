@@ -22,24 +22,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDAO productDAO;
 
-    @Override
-    public List<ProductDTO> getProduct(ProductForGetDTO product) {
-        System.out.println(product);
-        List<ProductDTO> productDTOS = productDAO.getProduct(product)
-                .stream().map(product1 -> new ProductDTO(product1.getName(), product1.getManufacturer(),
-                        product1.getDescription(), product1.getPrice(), product1.getCount()))
-                .collect(Collectors.toList());
-        if (productDTOS.size()!=0){
-            System.out.println(productDTOS.toString());
-            return productDTOS;
-        }else {
-            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_PRODUCT.getErrorCode());
-        }
-    }
-
 
     @Override
-    public ProductDTO getProductById(long id) {
+    public ProductDTO getProductById(Long id) {
         if (id >= 1) {
             ProductDTO productDTOs = new ProductDTO();
             Product product = productDAO.getProductById(id)
@@ -56,6 +41,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+
+    @Override
+    public List<ProductDTO> getProduct(ProductForGetDTO product) {
+
+        List<ProductDTO> productDTOS = productDAO.getProduct(product)
+                .stream().map(product1 -> new ProductDTO(product1.getName(), product1.getManufacturer(),
+                        product1.getDescription(), product1.getPrice(), product1.getCount()))
+                .collect(Collectors.toList());
+        if (productDTOS.size()!=0){
+            System.out.println(productDTOS.toString());
+            return productDTOS;
+        }else {
+            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_PRODUCT.getErrorCode());
+        }
+    }
+
+
+
     @Override
     public void addProduct(ProductForAddDTO productForAddDTO) {
         ProductForGetDTO productForGetDTO = new ProductForGetDTO();
@@ -63,7 +66,6 @@ public class ProductServiceImpl implements ProductService {
         productForGetDTO.setManufacturer(productForAddDTO.getManufacturer());
         productForGetDTO.setPrice(productForAddDTO.getPrice());
          List<Product> products = productDAO.getProduct(productForGetDTO);
-        System.out.println(products.toString() + "2");
          if (products.size() != 0){
              Product product1 = products.get(0);
              ProductUpdateForAddDTO productUpdateForAddDTO = new ProductUpdateForAddDTO();
@@ -81,5 +83,12 @@ public class ProductServiceImpl implements ProductService {
              product1.setStatus(Status.ACTIVE.toString());
              productDAO.addProduct(product1);
          }
+    }
+
+
+    @Override
+    public void deleteProduct(Long id) {
+        getProductById(id);
+            productDAO.deleteProduct(id);
     }
 }

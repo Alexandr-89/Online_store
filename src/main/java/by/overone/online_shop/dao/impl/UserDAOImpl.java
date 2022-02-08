@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public Optional<UserAllDetailsDTO> getUserAllInfoById(long id) {
+    public Optional<UserAllDetailsDTO> getUserAllInfoById(Long id) {
         return jdbcTemplate.query(GET_USER_BY_ALL_INFO_ID_QUERY,
                 new BeanPropertyRowMapper<>(UserAllDetailsDTO.class), id).stream().findAny();
     }
@@ -112,21 +112,21 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public void updateUser(long id, UserAllDetailsDTO user) {
+    public void updateUser(Long id, UserAllDetailsDTO user) {
         jdbcTemplate.update(UPDATE_USER_QUERY, user.getLogin(), user.getPassword(),
                 user.getEmail(), user.getRole(), user.getStatus(), id);
     }
 
 
     @Override
-    public void updateUserDetails(long userId, UserAllDetailsDTO user) {
+    public void updateUserDetails(Long userId, UserAllDetailsDTO user) {
         jdbcTemplate.update(UPDATE_USER_DETAILS_QUERY, user.getName(), user.getSurname(),
                 user.getAddress(), user.getPhone(), userId);
     }
 
 
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(Long id) {
         jdbcTemplate.update(DELETE_USER_QUERY, id);
     }
 

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -21,12 +22,10 @@ public class ProductForAddDTO {
     @Pattern(regexp = "^[a-zA-Z]{2,40}$")
     private String manufacturer;
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$")
+    @Pattern(regexp = "^[a-zA-Z]{1,1000}$")
     private String description;
-    @NotEmpty
-    @Pattern(regexp = "^[\\d\\D]{1,8}$")
+    @Min(1)
     private double price;
-    @NotEmpty
-    @Pattern(regexp = "^[\\d]{1,3}$")
+    @Min(1)
     private long count;
 }
