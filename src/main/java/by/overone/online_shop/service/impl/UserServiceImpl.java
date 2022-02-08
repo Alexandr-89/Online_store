@@ -117,8 +117,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(long id) {
-        getUserById(id);
-        userDAO.deleteUser(id);
+        UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
+                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+            userDAO.deleteUser(id);
     }
 
 }

@@ -26,7 +26,7 @@ import java.util.Optional;
 public class UserDAOImpl implements UserDAO {
 
 
-    private final static String GET_USER_BY_ID_QUERY = "SELECT * FROM users JOIN users_details ON id=users_id WHERE id=?";
+    private final static String GET_USER_BY_ALL_INFO_ID_QUERY = "SELECT * FROM users JOIN users_details ON id=users_id WHERE id=? and status = 'active'";
 
     private final static String ADD_USER_QUERY = "INSERT INTO users (login, password, email, role, status)" +
             " VALUES(:login, :password, :email, :role, :status)";
@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<UserAllDetailsDTO> getUserAllInfoById(long id) {
-        return jdbcTemplate.query(GET_USER_BY_ID_QUERY,
+        return jdbcTemplate.query(GET_USER_BY_ALL_INFO_ID_QUERY,
                 new BeanPropertyRowMapper<>(UserAllDetailsDTO.class), id).stream().findAny();
     }
 
