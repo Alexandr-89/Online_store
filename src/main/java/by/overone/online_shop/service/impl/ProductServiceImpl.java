@@ -50,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
                         product1.getDescription(), product1.getPrice(), product1.getCount()))
                 .collect(Collectors.toList());
         if (productDTOS.size()!=0){
-            System.out.println(productDTOS.toString());
             return productDTOS;
         }else {
             throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_PRODUCT.getErrorCode());

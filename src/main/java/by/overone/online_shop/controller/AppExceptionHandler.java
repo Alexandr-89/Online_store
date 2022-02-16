@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.sql.SQLException;
@@ -66,15 +67,21 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse response = new ExceptionResponse();
         response.setException(e.getClass().getSimpleName());
         response.setErrorCode(e.getMessage());
-        String message = "";
-        switch (e.getMessage()) {
-            case "1":
-                message = messageSource.getMessage("1", null, request.getLocale());
-                break;
-            case "2":
-                message = messageSource.getMessage("2", null, request.getLocale());
-                break;
-        }
+        String message = messageSource.getMessage(e.getMessage(), null, request.getLocale());
+//        switch (e.getMessage()) {
+//            case "1":
+//                message = messageSource.getMessage("1", null, request.getLocale());
+//                break;
+//            case "2":
+//                message = messageSource.getMessage("2", null, request.getLocale());
+//                break;
+//            case "9":
+//                message = messageSource.getMessage("9", null, request.getLocale());
+//                break;
+//            case "10":
+//                message = messageSource.getMessage("10", null, request.getLocale());
+//                break;
+//        }
         response.setMessage(message);
         log.error("Not found", e);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -126,4 +133,13 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex,
+                                                                   HttpHeaders headers,
+                                                                   HttpStatus status,
+                                                                   WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setMessage("jhfkgkghklhlyhyl");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

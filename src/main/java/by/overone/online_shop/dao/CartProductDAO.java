@@ -9,9 +9,9 @@ public interface CartProductDAO {
 
     void addCartProduct(CartProduct cartProduct);
     List<CartProductAllInfoDTO> getCartProduct(Long users_id, Long products_id);
-    List<CartProduct> getCartProductByUserId(long users_id);
-    CartProduct getCartProductByUserIdAndProductId(long user_id, long products_id);
-    void deleteCartProductByUserId(long users_id);
-    void deleteCartProduct(long users_id, long products_id);
+//    List<CartProduct> getCartProductByUserId(Long users_id);
+//    CartProduct getCartProductByUserIdAndProductId(Long user_id, Long products_id);
+    void deleteCartProductByUserId(Long users_id);
+    void deleteCartProduct(Long users_id, Long products_id);
     void updateProductCount(CartProduct cartProduct);
 }

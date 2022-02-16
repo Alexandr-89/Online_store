@@ -10,5 +10,5 @@ public interface OrderService {
 
     void addOrder(long id);
     OrderAllInfoDTO getOrderInfo(Long id);
-    List<OrderedProductsDTO> get(Long id);
+    List<OrderedProductsDTO> getOrderedProducts(Long id);
 }

@@ -1,6 +1,8 @@
 package by.overone.online_shop.dao.impl;
 
+import by.overone.online_shop.dao.CartProductDAO;
 import by.overone.online_shop.dao.OrderDAO;
+import by.overone.online_shop.dto.CartProductAllInfoDTO;
 import by.overone.online_shop.dto.CartProductDTO;
 import by.overone.online_shop.dto.OrderInfoDTO;
 import by.overone.online_shop.dto.OrderedProductsDTO;
@@ -43,11 +45,12 @@ public class OrderDAOImpl implements OrderDAO {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final CartProductServiceImpl cartProductService;
+    private final CartProductDAO cartProductDAO;
 
     @Override
-    @Transactional
     public void addOrder(long id) {
 
+//        List<CartProductAllInfoDTO> cartProducts = cartProductDAO.getCartProduct(id, null);
         List<CartProductDTO> cartProducts = cartProductService.getCartProduct(id, null);
         Order order = new Order();
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -75,8 +78,8 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public Optional<OrderInfoDTO> getOrderedProducts(Long id) {
         System.out.println(id);
-        return jdbcTemplate.query(GET_ORDER_BU_USER_ID, new Object[]{id},
-                new BeanPropertyRowMapper<>(OrderInfoDTO.class)).stream().findAny();
+        return jdbcTemplate.query(GET_ORDER_BU_USER_ID,
+                new BeanPropertyRowMapper<>(OrderInfoDTO.class), new Object[]{id}).stream().findAny();
     }
 
     @Override

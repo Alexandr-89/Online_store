@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -22,18 +23,21 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable("id") Long id){
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserById(@Valid @Min(1) @PathVariable("id") Long id){
         return userService.getUserById(id);
     }
 
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> findUsers(@RequestBody UserForGetDTO userForGetDTO){
         return userService.findUsers(userForGetDTO);
     }
 
 
     @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
     public List<UserAllInfoDTO> findUsersAllInfo(@RequestBody UserForGetDTO userForGetDTO){
         return userService.findUsersAllInfo(userForGetDTO);
     }
@@ -47,19 +51,22 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
     }
 
 
     @PatchMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @Validated @RequestBody UserUpdateDTO userUpdateDTO) {
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@PathVariable("id") Long id, @Validated @RequestBody UserUpdateDTO userUpdateDTO) {
         userService.userUpdate(id, userUpdateDTO);
     }
 
 
     @PatchMapping("/details/{userId}")
-    public void updateDetailsUser(@PathVariable Long userId, @Validated @RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
+    @ResponseStatus(HttpStatus.OK)
+    public void updateDetailsUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
         userService.userDetailUpdate(userId, userDetailUpdateDTO);
     }
 

@@ -11,6 +11,7 @@ import by.overone.online_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +23,6 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderDAO orderDAO;
 
-    @Override
-    public void addOrder(long id) {
-        orderDAO.addOrder(id);
-    }
 
     @Override
     public OrderAllInfoDTO getOrderInfo(Long id) {
@@ -42,8 +39,18 @@ public class OrderServiceImpl implements OrderService {
         return orderAllInfoDTO;
     }
 
+
+
     @Override
-    public List<OrderedProductsDTO> get(Long id) {
+    @Transactional
+    public void addOrder(long id) {
+        orderDAO.addOrder(id);
+    }
+
+
+
+    @Override
+    public List<OrderedProductsDTO> getOrderedProducts(Long id) {
         return orderDAO.get(id);
     }
 }
