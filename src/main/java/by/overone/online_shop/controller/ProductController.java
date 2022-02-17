@@ -36,7 +36,6 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@Validated @RequestBody ProductForAddDTO productDTO){
-        System.out.println(productDTO.toString());
         productService.addProduct(productDTO);
     }
 

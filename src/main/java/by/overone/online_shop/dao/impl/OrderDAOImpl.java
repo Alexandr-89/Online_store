@@ -38,9 +38,12 @@ public class OrderDAOImpl implements OrderDAO {
     private final static String GET_ORDER_BU_USER_ID = "SELECT users_id, orders_id, date FROM users join" +
             " users_has_orders u on users_id=u.users_id join orders on u.orders_id=orders_id  where users_id = ?";
     private final static String GET_ORDERED_PRODUCTS_BY_ORDER = "SELECT op.* FROM orders " +
-            "JOIN ordered_products_has_orders o ON orders_id=o.orders_id " +
-            "JOIN ordered_products op ON op.id=o.ordered_products_id " +
-            "WHERE orders_id=?";
+            "JOIN ordered_products_has_orders o ON orders.id=o.orders_id " +
+            "JOIN ordered_products op ON o.ordered_products_id = op.id " +
+            "WHERE orders.id=?";
+//    private final static String GET = "SELECT op.* FROM orders " +
+//            "join ordered_products_has_orders o on orders.id= o.orders_id " +
+//            "join ordered_products op on o.ordered_products_id=op.id where orders.id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -76,14 +79,14 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Optional<OrderInfoDTO> getOrderedProducts(Long id) {
+    public Optional<OrderInfoDTO> getOrderByUserId(Long id) {
         System.out.println(id);
         return jdbcTemplate.query(GET_ORDER_BU_USER_ID,
                 new BeanPropertyRowMapper<>(OrderInfoDTO.class), new Object[]{id}).stream().findAny();
     }
 
     @Override
-    public List<OrderedProductsDTO> get(Long id) {
+    public List<OrderedProductsDTO> getOrderedProducts(Long id) {
         log.info("order_id " + id);
         return jdbcTemplate.query(GET_ORDERED_PRODUCTS_BY_ORDER, new BeanPropertyRowMapper<>(OrderedProductsDTO.class), id);
     }

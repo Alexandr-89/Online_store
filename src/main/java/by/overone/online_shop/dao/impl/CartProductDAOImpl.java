@@ -4,12 +4,14 @@ import by.overone.online_shop.dao.CartProductDAO;
 import by.overone.online_shop.dto.CartProductAllInfoDTO;
 import by.overone.online_shop.model.CartProduct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class CartProductDAOImpl implements CartProductDAO {
@@ -48,8 +50,8 @@ public class CartProductDAOImpl implements CartProductDAO {
         if (users_id == null && products_id != null) {
             sql = sql + " WHERE products_id = " + products_id;
         }
+        log.info(sql);
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CartProductAllInfoDTO.class),  new Object[]{});
-
     }
 
 

@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface OrderDAO {
 
     void addOrder(long id);
-    Optional<OrderInfoDTO> getOrderedProducts(Long id);
-    List<OrderedProductsDTO> get(Long id);
+    Optional<OrderInfoDTO> getOrderByUserId(Long id);
+    List<OrderedProductsDTO> getOrderedProducts(Long id);
 }

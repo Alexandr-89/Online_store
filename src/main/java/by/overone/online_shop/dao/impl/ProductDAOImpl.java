@@ -53,8 +53,8 @@ public class ProductDAOImpl implements ProductDAO {
             sql = sql + " WHERE manufacturer = '" + product.getManufacturer() + "' AND status = 'active'";
         }
         if (product.getName() != null && product.getManufacturer() != null && product.getPrice() != 0) {
-            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = ' AND status = 'active'"
-                    + product.getManufacturer() +"' AND price = " + product.getPrice();
+            sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '"+ product.getManufacturer() +
+                    "'  AND status = 'active' AND price = '" + product.getPrice() + "'";
         }
         if (product.getName() != null && product.getManufacturer() != null && product.getPrice() == 0) {
             sql = sql + " WHERE name = '" + product.getName() + "' AND manufacturer = '" + product.getManufacturer()

@@ -9,11 +9,13 @@ import by.overone.online_shop.model.CartProduct;
 import by.overone.online_shop.model.Product;
 import by.overone.online_shop.service.CartProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartProductServiceImpl implements CartProductService {
@@ -24,11 +26,14 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     public List<CartProductDTO> getCartProduct(Long users_id, Long product_id) {
+        log.info(String.valueOf(users_id));
         List<CartProductDTO> cartProductDTOS = cartProductDAO.getCartProduct(users_id, product_id)
                 .stream().map(cartProduct -> new CartProductDTO(cartProduct.getUsers_id(), cartProduct.getProducts_id(),
                         cartProduct.getCarts_products_count(), cartProduct.getCarts_products_sum(), cartProduct.getName(),
                         cartProduct.getManufacturer(),
                         cartProduct.getPrice())).collect(Collectors.toList());
+        log.info(String.valueOf(cartProductDTOS.size()));
+        log.info(cartProductDTOS.toString());
         if (cartProductDTOS.size()!=0){
             return cartProductDTOS;
         }else {
@@ -64,7 +69,7 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     public void deleteCartProductByUserId(long users_id) {
-        getCartProduct(users_id, null);
+        log.info(String.valueOf(users_id));
         cartProductDAO.deleteCartProductByUserId(users_id);
     }
 
