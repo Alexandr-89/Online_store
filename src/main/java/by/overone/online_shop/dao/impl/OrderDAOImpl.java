@@ -37,6 +37,8 @@ public class OrderDAOImpl implements OrderDAO {
             "(ordered_products_id, orders_id) VALUES(?, ?)";
     private final static String GET_ORDER_BU_USER_ID = "SELECT users_id, orders_id, orders.date FROM users join" +
             " users_has_orders u on users.id=u.users_id join orders on u.orders_id=orders.id  where users.id = ?";
+    private final static String GET_ALL_ORDERS = "SELECT users_id, orders_id, orders.date FROM users join" +
+            " users_has_orders u on users.id=u.users_id join orders on u.orders_id=orders.id";
     private final static String GET_ORDERED_PRODUCTS_BY_ORDER = "SELECT op.* FROM orders " +
             "JOIN ordered_products_has_orders o ON orders.id=o.orders_id " +
             "JOIN ordered_products op ON o.ordered_products_id = op.id " +
@@ -77,8 +79,13 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<OrderInfoDTO> getOrders(Long id) {
+    public List<OrderInfoDTO> getOrdersByUserId(Long id) {
         return jdbcTemplate.query(GET_ORDER_BU_USER_ID, new BeanPropertyRowMapper<>(OrderInfoDTO.class), id);
+    }
+
+    @Override
+    public List<OrderInfoDTO> getAllOrders() {
+        return jdbcTemplate.query(GET_ALL_ORDERS, new BeanPropertyRowMapper<>(OrderInfoDTO.class));
     }
 
     @Override

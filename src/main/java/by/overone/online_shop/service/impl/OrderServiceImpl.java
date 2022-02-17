@@ -22,9 +22,30 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<OrderAllInfoDTO> getOrders(Long id) {
+    public List<OrderAllInfoDTO> getOrdersByUserId(Long id) {
         log.info(String.valueOf(id));
-        List<OrderInfoDTO> orderInfoDTOS = orderDAO.getOrders(id);
+        List<OrderInfoDTO> orderInfoDTOS = orderDAO.getOrdersByUserId(id);
+        log.info(String.valueOf(orderInfoDTOS.get(0)));
+        log.info(orderInfoDTOS.toString());
+        List<OrderAllInfoDTO> orderAllInfoDTOS = new ArrayList<>();
+        for (OrderInfoDTO o:orderInfoDTOS) {
+            OrderAllInfoDTO orderAllInfoDTO = new OrderAllInfoDTO();
+            orderAllInfoDTO.setUsers_id(o.getUsers_id());
+            orderAllInfoDTO.setOrders_id(o.getOrders_id());
+            orderAllInfoDTO.setDate(o.getDate());
+            orderAllInfoDTO.setOrderedProductsDTOS(orderDAO.getOrderedProducts(o.getOrders_id()));
+            orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().mapToDouble(OrderedProductsDTO::getSum).sum());
+            log.info(orderAllInfoDTO.toString());
+            orderAllInfoDTOS.add(orderAllInfoDTO);
+            log.info(orderAllInfoDTOS.toString());
+        }
+        log.info(orderAllInfoDTOS.toString());
+        return orderAllInfoDTOS;
+    }
+
+    @Override
+    public List<OrderAllInfoDTO> getAllOrders() {
+        List<OrderInfoDTO> orderInfoDTOS = orderDAO.getAllOrders();
         log.info(String.valueOf(orderInfoDTOS.get(0)));
         log.info(orderInfoDTOS.toString());
         List<OrderAllInfoDTO> orderAllInfoDTOS = new ArrayList<>();

@@ -24,12 +24,14 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public List<OrderAllInfoDTO> getOrder(@PathVariable Long id){
-            return orderService.getOrders(id);
+    public List<OrderAllInfoDTO> getOrderByUserId(@PathVariable Long id){
+            return orderService.getOrdersByUserId(id);
     }
 
-//    @GetMapping("/ordered{id}")
-//    public List<OrderedProductsDTO> get (@PathVariable Long id){
-//        return orderService.getOrderedProducts(id);
-//    }
+    @GetMapping("/all")
+    public List<OrderAllInfoDTO> getAllOrder(){
+        return orderService.getAllOrders();
+    }
+
+
 }
