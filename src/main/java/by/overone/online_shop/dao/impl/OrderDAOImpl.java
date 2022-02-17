@@ -35,15 +35,13 @@ public class OrderDAOImpl implements OrderDAO {
             " price, count, sum) VALUES (:products_id, :name, :manufacturer, :price, :count, :sum)";
     private final static String ADD_ORDERED_PRODUCTS_HAS_ORDERS = "INSERT INTO ordered_products_has_orders " +
             "(ordered_products_id, orders_id) VALUES(?, ?)";
-    private final static String GET_ORDER_BU_USER_ID = "SELECT users_id, orders_id, date FROM users join" +
-            " users_has_orders u on users_id=u.users_id join orders on u.orders_id=orders_id  where users_id = ?";
+    private final static String GET_ORDER_BU_USER_ID = "SELECT users_id, orders_id, orders.date FROM users join" +
+            " users_has_orders u on users.id=u.users_id join orders on u.orders_id=orders.id  where users.id = ?";
     private final static String GET_ORDERED_PRODUCTS_BY_ORDER = "SELECT op.* FROM orders " +
             "JOIN ordered_products_has_orders o ON orders.id=o.orders_id " +
             "JOIN ordered_products op ON o.ordered_products_id = op.id " +
             "WHERE orders.id=?";
-//    private final static String GET = "SELECT op.* FROM orders " +
-//            "join ordered_products_has_orders o on orders.id= o.orders_id " +
-//            "join ordered_products op on o.ordered_products_id=op.id where orders.id = ?";
+
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -62,7 +60,7 @@ public class OrderDAOImpl implements OrderDAO {
         namedParameterJdbcTemplate.update(ADD_ORDER, sqlParameterSource, keyHolder, new String[]{"id"});
         order.setId(keyHolder.getKey().longValue());
         jdbcTemplate.update(ADD_ORDER_HAS_USER, order.getId(), id);
-        for (CartProductDTO cartProduct:cartProducts) {
+        for (CartProductDTO cartProduct : cartProducts) {
             OrderedProductsDTO orderedProductsDTO = new OrderedProductsDTO();
             SqlParameterSource sqlParameterSource1 = new MapSqlParameterSource()
                     .addValue("products_id", cartProduct.getProducts_id())
@@ -79,10 +77,8 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Optional<OrderInfoDTO> getOrderByUserId(Long id) {
-        System.out.println(id);
-        return jdbcTemplate.query(GET_ORDER_BU_USER_ID,
-                new BeanPropertyRowMapper<>(OrderInfoDTO.class), new Object[]{id}).stream().findAny();
+    public List<OrderInfoDTO> getOrders(Long id) {
+        return jdbcTemplate.query(GET_ORDER_BU_USER_ID, new BeanPropertyRowMapper<>(OrderInfoDTO.class), id);
     }
 
     @Override

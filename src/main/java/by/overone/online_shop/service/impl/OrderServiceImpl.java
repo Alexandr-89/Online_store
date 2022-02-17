@@ -4,14 +4,13 @@ import by.overone.online_shop.dao.OrderDAO;
 import by.overone.online_shop.dto.OrderAllInfoDTO;
 import by.overone.online_shop.dto.OrderInfoDTO;
 import by.overone.online_shop.dto.OrderedProductsDTO;
-import by.overone.online_shop.exception.EntityNotFoundException;
-import by.overone.online_shop.exception.ExceptionCode;
 import by.overone.online_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,20 +22,26 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderAllInfoDTO getOrderInfo(Long id) {
-        OrderInfoDTO orderInfoDTO = orderDAO.getOrderByUserId(id).orElseThrow(() -> new EntityNotFoundException
-                (ExceptionCode.NOT_EXISTING_ORDER_BY_USER_ID.getErrorCode()));
-        OrderAllInfoDTO orderAllInfoDTO = new OrderAllInfoDTO();
-        orderAllInfoDTO.setUsers_id(orderInfoDTO.getUsers_id());
-        orderAllInfoDTO.setOrders_id(orderInfoDTO.getOrders_id());
-        orderAllInfoDTO.setDate(orderInfoDTO.getDate());
-        orderAllInfoDTO.setOrderedProductsDTOS(orderDAO.getOrderedProducts(orderAllInfoDTO.getOrders_id()));
-//        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().collect(Collectors.summingDouble(OrderedProductsDTO::getSum)));
-        orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().mapToDouble(OrderedProductsDTO::getSum).sum());
-        log.info(orderAllInfoDTO.toString());
-        return orderAllInfoDTO;
+    public List<OrderAllInfoDTO> getOrders(Long id) {
+        log.info(String.valueOf(id));
+        List<OrderInfoDTO> orderInfoDTOS = orderDAO.getOrders(id);
+        log.info(String.valueOf(orderInfoDTOS.get(0)));
+        log.info(orderInfoDTOS.toString());
+        List<OrderAllInfoDTO> orderAllInfoDTOS = new ArrayList<>();
+        for (OrderInfoDTO o:orderInfoDTOS) {
+            OrderAllInfoDTO orderAllInfoDTO = new OrderAllInfoDTO();
+            orderAllInfoDTO.setUsers_id(o.getUsers_id());
+            orderAllInfoDTO.setOrders_id(o.getOrders_id());
+            orderAllInfoDTO.setDate(o.getDate());
+            orderAllInfoDTO.setOrderedProductsDTOS(orderDAO.getOrderedProducts(o.getOrders_id()));
+            orderAllInfoDTO.setTotal(orderAllInfoDTO.getOrderedProductsDTOS().stream().mapToDouble(OrderedProductsDTO::getSum).sum());
+            log.info(orderAllInfoDTO.toString());
+            orderAllInfoDTOS.add(orderAllInfoDTO);
+            log.info(orderAllInfoDTOS.toString());
+        }
+        log.info(orderAllInfoDTOS.toString());
+        return orderAllInfoDTOS;
     }
-
 
 
     @Override
@@ -45,10 +50,4 @@ public class OrderServiceImpl implements OrderService {
         orderDAO.addOrder(id);
     }
 
-
-
-//    @Override
-//    public List<OrderedProductsDTO> getOrderedProducts(Long id) {
-//        return orderDAO.getOrderedProducts(id);
-//    }
 }

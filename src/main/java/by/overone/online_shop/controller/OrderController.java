@@ -1,7 +1,6 @@
 package by.overone.online_shop.controller;
 
 import by.overone.online_shop.dto.OrderAllInfoDTO;
-import by.overone.online_shop.dto.OrderedProductsDTO;
 import by.overone.online_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderAllInfoDTO getOrder(@PathVariable Long id){
-        return orderService.getOrderInfo(id);
+    public List<OrderAllInfoDTO> getOrder(@PathVariable Long id){
+            return orderService.getOrders(id);
     }
 
 //    @GetMapping("/ordered{id}")

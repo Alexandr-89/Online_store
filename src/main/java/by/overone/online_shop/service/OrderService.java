@@ -9,6 +9,5 @@ import java.util.List;
 public interface OrderService {
 
     void addOrder(long id);
-    OrderAllInfoDTO getOrderInfo(Long id);
-//    List<OrderedProductsDTO> getOrderedProducts(Long id);
+    List<OrderAllInfoDTO> getOrders(Long id);
 }
