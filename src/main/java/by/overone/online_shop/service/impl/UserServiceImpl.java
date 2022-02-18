@@ -10,7 +10,9 @@ import by.overone.online_shop.model.User;
 import by.overone.online_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,16 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        if (id>=1){
             UserDTO userDTOs = new UserDTO();
             UserAllDetailsDTO user = userDAO.getUserAllInfoById(id)
                     .orElseThrow(() -> new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
             userDTOs.setLogin(user.getLogin());
             userDTOs.setEmail(user.getEmail());
             return userDTOs;
-        }else {
-            throw new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode());
-        }
     }
 
 
@@ -67,10 +65,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public void addUser(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
         user.setLogin(userRegistrationDTO.getLogin());
-        user.setPassword(userRegistrationDTO.getPassword());
+        user.setPassword(DigestUtils.md5Hex(userRegistrationDTO.getPassword()));
         user.setEmail(userRegistrationDTO.getEmail());
         user.setRole(Role.CUSTOMER);
         user.setStatus(Status.ACTIVE);
@@ -87,7 +86,7 @@ public class UserServiceImpl implements UserService {
             user.setLogin(userUpdateDTO.getLogin());
         }
         if (userUpdateDTO.getPassword()!=null){
-            user.setPassword(userUpdateDTO.getPassword());
+            user.setPassword(DigestUtils.md5Hex(userUpdateDTO.getPassword()));
         }
         if (userUpdateDTO.getEmail()!=null){
             user.setEmail(userUpdateDTO.getEmail());
@@ -117,8 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        UserAllDetailsDTO user = userDAO.getUserAllInfoById(id).orElseThrow(()->
-                new EntityNotFoundException(ExceptionCode.NOT_EXISTING_USER.getErrorCode()));
+        userDAO.getUserAllInfoById(id);
             userDAO.deleteUser(id);
     }
 

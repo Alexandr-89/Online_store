@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -55,6 +56,11 @@ public class WebConfig implements WebMvcConfigurer {
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
         messageSource.setDefaultLocale(Locale.ENGLISH);
         return messageSource;
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor(){
+        return new MethodValidationPostProcessor();
     }
 
 }

@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
+
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -20,14 +23,12 @@ public class ProductController {
 
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ProductDTO getProductById(@PathVariable("id") Long id){
+    public ProductDTO getProductById(@PathVariable("id") @Valid @Min(1) Long id){
         return productService.getProductById(id);
     }
 
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<ProductDTO> getProduct(@RequestBody ProductForGetDTO product){
         return productService.getProduct(product);
     }
@@ -41,8 +42,8 @@ public class ProductController {
 
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@PathVariable("id") Long id){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable("id") @Valid @Min(1) Long id){
         productService.deleteProduct(id);
     }
 

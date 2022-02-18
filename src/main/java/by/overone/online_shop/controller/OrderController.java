@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Validated
@@ -19,12 +21,12 @@ public class OrderController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOrder(@PathVariable Long id){
+    public void addOrder(@PathVariable @Valid @Min(1) Long id){
         orderService.addOrder(id);
     }
 
     @GetMapping("/{id}")
-    public List<OrderAllInfoDTO> getOrderByUserId(@PathVariable Long id){
+    public List<OrderAllInfoDTO> getOrderByUserId(@PathVariable @Valid @Min(1) Long id){
             return orderService.getOrdersByUserId(id);
     }
 

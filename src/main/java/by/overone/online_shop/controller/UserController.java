@@ -23,21 +23,18 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDTO getUserById(@Valid @Min(1) @PathVariable("id") Long id){
+    public UserDTO getUserById(@PathVariable("id") @Valid @Min(1) Long id){
         return userService.getUserById(id);
     }
 
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> findUsers(@RequestBody UserForGetDTO userForGetDTO){
         return userService.findUsers(userForGetDTO);
     }
 
 
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
     public List<UserAllInfoDTO> findUsersAllInfo(@RequestBody UserForGetDTO userForGetDTO){
         return userService.findUsersAllInfo(userForGetDTO);
     }
@@ -51,22 +48,22 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable("id") @Valid @Min(1) Long id) {
         userService.deleteUser(id);
     }
 
 
     @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@PathVariable("id") Long id, @Validated @RequestBody UserUpdateDTO userUpdateDTO) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateUser(@PathVariable("id") @Valid @Min(1) Long id, @Validated @RequestBody UserUpdateDTO userUpdateDTO) {
         userService.userUpdate(id, userUpdateDTO);
     }
 
 
     @PatchMapping("/details/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateDetailsUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateDetailsUser(@PathVariable("userId") @Valid @Min(1) Long userId, @Validated @RequestBody UserDetailUpdateDTO userDetailUpdateDTO) {
         userService.userDetailUpdate(userId, userDetailUpdateDTO);
     }
 
