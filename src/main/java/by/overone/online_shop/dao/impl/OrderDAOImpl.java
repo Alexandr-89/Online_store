@@ -2,7 +2,6 @@ package by.overone.online_shop.dao.impl;
 
 import by.overone.online_shop.dao.CartProductDAO;
 import by.overone.online_shop.dao.OrderDAO;
-import by.overone.online_shop.dto.CartProductAllInfoDTO;
 import by.overone.online_shop.dto.CartProductDTO;
 import by.overone.online_shop.dto.OrderInfoDTO;
 import by.overone.online_shop.dto.OrderedProductsDTO;
@@ -18,11 +17,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @Repository
@@ -52,8 +51,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void addOrder(long id) {
-
-//        List<CartProductAllInfoDTO> cartProducts = cartProductDAO.getCartProduct(id, null);
         List<CartProductDTO> cartProducts = cartProductService.getCartProduct(id, null);
         Order order = new Order();
         KeyHolder keyHolder = new GeneratedKeyHolder();

@@ -45,14 +45,17 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     public void addCartProduct(CartProductForAddDTO cartProductForAddDTO) {
-        List<CartProductAllInfoDTO> cartProducts = cartProductDAO.getCartProduct(cartProductForAddDTO.getUsers_id(),cartProductForAddDTO.getProducts_id());
+        List<CartProductAllInfoDTO> cartProducts = cartProductDAO.getCartProduct(cartProductForAddDTO.getUsers_id(),
+                cartProductForAddDTO.getProducts_id());
         CartProduct cartProduct1 = new CartProduct();
         if(cartProducts.size()!=0){
             CartProductAllInfoDTO cartProduct2 = cartProducts.get(0);
             cartProduct1.setUsers_id(cartProduct2.getUsers_id());
             cartProduct1.setProducts_id(cartProduct2.getProducts_id());
-            cartProduct1.setCarts_products_count(cartProductForAddDTO.getCarts_products_count()+cartProduct2.getCarts_products_count());
-            cartProduct1.setCarts_products_sum(cartProduct2.getCarts_products_sum() + (cartProductForAddDTO.getCarts_products_count()*cartProduct2.getPrice()));
+            cartProduct1.setCarts_products_count(cartProductForAddDTO.getCarts_products_count()
+                    +cartProduct2.getCarts_products_count());
+            cartProduct1.setCarts_products_sum(cartProduct2.getCarts_products_sum() +
+                    (cartProductForAddDTO.getCarts_products_count()*cartProduct2.getPrice()));
             cartProductDAO.updateProductCount(cartProduct1);
         }else {
             Product product = productDAO.getProductById(cartProductForAddDTO.getProducts_id()).orElseThrow(() ->

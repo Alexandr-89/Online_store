@@ -20,6 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,13 +55,6 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    @RequestMapping(value = "/**")
-//    public ResponseEntity<ExceptionResponse> hfjfkfkfk(){
-//        ExceptionResponse response = new ExceptionResponse();
-//        response.setErrorCode("404");
-//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ExceptionResponse> entityNotFoundHandler(EntityNotFoundException e, WebRequest request) {
@@ -68,34 +62,20 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         response.setException(e.getClass().getSimpleName());
         response.setErrorCode(e.getMessage());
         String message = messageSource.getMessage(e.getMessage(), null, request.getLocale());
-//        switch (e.getMessage()) {
-//            case "1":
-//                message = messageSource.getMessage("1", null, request.getLocale());
-//                break;
-//            case "2":
-//                message = messageSource.getMessage("2", null, request.getLocale());
-//                break;
-//            case "9":
-//                message = messageSource.getMessage("9", null, request.getLocale());
-//                break;
-//            case "10":
-//                message = messageSource.getMessage("10", null, request.getLocale());
-//                break;
-//        }
         response.setMessage(message);
         log.error("Not found", e);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(SQLException.class)
-//    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
-//        ExceptionResponse response = new ExceptionResponse();
-//        response.setException(e.getClass().getSimpleName());
-//        response.setErrorCode("3");
-//        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
-//        log.error("SQL exception", e);
-//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ExceptionResponse> sqlExceptionHandler(SQLException e, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setException(e.getClass().getSimpleName());
+        response.setErrorCode("3");
+        response.setMessage(messageSource.getMessage("3", null, request.getLocale()));
+        log.error("SQL exception", e);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ExceptionResponse> entityAlreadyExistHandler(DuplicateKeyException e, WebRequest request) {
@@ -121,6 +101,17 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> constraintHandle(ConstraintViolationException ex) {
+        List<ExceptionResponse> responses = ex.getConstraintViolations()
+                .stream()
+                .map(error -> new ExceptionResponse(error.getMessage(),
+                        null, null))
+                .collect(Collectors.toList());
+        log.info("Validation error", ex);
+        return new ResponseEntity<>(responses, HttpStatus.BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status,
@@ -139,7 +130,10 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                                                                    HttpStatus status,
                                                                    WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
-        response.setMessage("jhfkgkghklhlyhyl");
+        response.setException(ex.getClass().getSimpleName());
+        response.setErrorCode("11");
+        response.setMessage(messageSource.getMessage("11", null, request.getLocale()));
+        log.error("No handler found", ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
