@@ -5,7 +5,8 @@
   - MySQL DB 
   - Spring Framework
 ### Short description of the project
-Online store 
+Online store
+The application allows users to register, perform various actions with their data (add, change, delete), search for various parameters, as well as add products to the cart and make orders.
 
 ### Prerequisites:
 - Tomcat
